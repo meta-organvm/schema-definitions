@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/dispatch-payload.schema.json",
+  "title": "Dispatch Payload",
+  "description": "Schema for cross-organ dispatch events routed through ORGAN-IV.",
+  "type": "object",
+  "required": ["event", "source", "target", "payload"],
+  "properties": {
+    "event": {
+      "type": "string",
+      "description": "Event type (e.g., governance.updated, health-audit.completed, theory.published)",
+      "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+    },
+    "source": { "$ref": "#/$defs/endpoint" },
+    "target": { "$ref": "#/$defs/endpoint" },
+    "payload": {
+      "type": "object",
+      "description": "Event-specific data"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "dispatch_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "normal", "high", "critical"]
+        },
+        "ttl_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "correlation_id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "required": ["organ"],
+      "properties": {
+        "organ": {
+          "type": "string",
+          "description": "Organ identifier (e.g., ORGAN-I, META-ORGANVM)"
+        },
+        "org": {
+          "type": "string",
+          "description": "GitHub organization"
+        },
+        "repo": {
+          "type": "string",
+          "description": "Specific repository (optional)"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "event": "theory.published",
+  "source": {
+    "organ": "ORGAN-I",
+    "org": "organvm-i-theoria",
+    "repo": "recursive-engine--generative-entity"
+  },
+  "target": {
+    "organ": "ORGAN-II",
+    "org": "organvm-ii-poiesis"
+  },
+  "payload": {
+    "repo_name": "recursive-engine--generative-entity",
+    "action": "check_art_derivative_opportunity",
+    "message": "New theory artifact published — evaluate for ORGAN-II creative expression"
+  },
+  "metadata": {
+    "dispatch_id": "d1a2b3c4-e5f6-7890-abcd-ef1234567890",
+    "timestamp": "2026-02-17T12:00:00Z",
+    "priority": "normal",
+    "ttl_seconds": 86400
+  }
+}

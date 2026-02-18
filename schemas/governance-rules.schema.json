@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/governance-rules.schema.json",
+  "title": "Governance Rules",
+  "description": "Schema for governance-rules.json — dependency rules, promotion state machine, audit thresholds.",
+  "type": "object",
+  "required": ["version", "dependency_rules", "promotion_rules", "state_machine", "audit_thresholds"],
+  "properties": {
+    "version": { "type": "string" },
+    "schema_note": { "type": "string" },
+    "dependency_rules": { "$ref": "#/$defs/dependency_rules" },
+    "promotion_rules": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/promotion_rule" }
+    },
+    "state_machine": { "$ref": "#/$defs/state_machine" },
+    "audit_thresholds": { "$ref": "#/$defs/audit_thresholds" },
+    "organ_requirements": {
+      "type": "object",
+      "patternProperties": {
+        "^ORGAN-[IVX]+$": { "$ref": "#/$defs/organ_requirement" }
+      }
+    }
+  },
+  "$defs": {
+    "dependency_rules": {
+      "type": "object",
+      "required": ["max_transitive_depth", "no_circular_dependencies", "no_back_edges"],
+      "properties": {
+        "max_transitive_depth": { "type": "integer", "minimum": 1 },
+        "no_circular_dependencies": { "type": "boolean", "const": true },
+        "no_back_edges": { "type": "boolean", "const": true },
+        "back_edge_definition": { "type": "string" },
+        "restricted_organs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "restricted_orgs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "promotion_rule": {
+      "type": "object",
+      "required": ["source_organ", "destination_organ", "conditions", "naming"],
+      "properties": {
+        "source_organ": { "type": "string" },
+        "destination_organ": { "type": "string" },
+        "destination_org": { "type": "string" },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "naming": { "type": "string" }
+      }
+    },
+    "state_machine": {
+      "type": "object",
+      "required": ["states", "transitions"],
+      "properties": {
+        "states": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "transitions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "audit_thresholds": {
+      "type": "object",
+      "properties": {
+        "critical": { "type": "object" },
+        "warning": { "type": "object" }
+      }
+    },
+    "organ_requirement": {
+      "type": "object",
+      "properties": {
+        "min_repos": { "type": "integer", "minimum": 0 },
+        "requires_readme": { "type": "boolean" },
+        "requires_tests": { "type": "boolean" },
+        "requires_revenue_fields": { "type": "boolean" },
+        "requires_registry": { "type": "boolean" },
+        "min_essays": { "type": "integer" }
+      }
+    }
+  }
+}

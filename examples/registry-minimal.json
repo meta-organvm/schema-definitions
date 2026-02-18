@@ -1,0 +1,22 @@
+{
+  "version": "2.0",
+  "schema_version": "0.5",
+  "organs": {
+    "ORGAN-I": {
+      "name": "Theory",
+      "repositories": [
+        {
+          "name": "example-repo",
+          "org": "organvm-i-theoria",
+          "implementation_status": "ACTIVE",
+          "public": true,
+          "description": "An example repository for testing schema validation",
+          "dependencies": [],
+          "promotion_status": "LOCAL",
+          "tier": "standard",
+          "last_validated": "2026-02-17"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/seed-v1.schema.json",
+  "title": "Seed v1",
+  "description": "Schema for seed.yaml — the per-repo automation contract deployed across all repos.",
+  "type": "object",
+  "required": ["schema_version", "organ", "repo", "org"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "organ": {
+      "type": "string",
+      "description": "Organ number (I, II, III, IV, V, VI, VII, Meta)"
+    },
+    "organ_name": {
+      "type": "string",
+      "description": "Human-readable organ name"
+    },
+    "repo": {
+      "type": "string",
+      "description": "Repository name"
+    },
+    "org": {
+      "type": "string",
+      "description": "GitHub organization"
+    },
+    "metadata": { "$ref": "#/$defs/metadata" },
+    "agents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/agent" }
+    },
+    "produces": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/produces_entry" }
+    },
+    "consumes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/consumes_entry" }
+    },
+    "subscriptions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/subscription" }
+    }
+  },
+  "$defs": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "implementation_status": {
+          "type": "string",
+          "enum": ["ACTIVE", "PROTOTYPE", "SKELETON", "DESIGN_ONLY", "ARCHIVED"]
+        },
+        "tier": {
+          "type": "string",
+          "enum": ["flagship", "standard", "stub", "archive", "infrastructure"]
+        },
+        "promotion_status": {
+          "type": "string",
+          "enum": ["LOCAL", "CANDIDATE", "PUBLIC_PROCESS", "GRADUATED", "ARCHIVED"]
+        },
+        "last_validated": { "type": "string" },
+        "generated": { "type": "string" },
+        "sprint": { "type": "string" },
+        "language": { "type": "string" }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "required": ["name", "trigger"],
+      "properties": {
+        "name": { "type": "string" },
+        "trigger": {
+          "type": "string",
+          "enum": ["on_push", "on_pull_request", "on_schedule", "manual"]
+        },
+        "workflow": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "produces_entry": {
+      "type": "object",
+      "required": ["type", "description"],
+      "properties": {
+        "type": { "type": "string" },
+        "description": { "type": "string" },
+        "consumers": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "consumes_entry": {
+      "type": "object",
+      "required": ["type", "source"],
+      "properties": {
+        "type": { "type": "string" },
+        "source": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "subscription": {
+      "type": "object",
+      "required": ["event", "source", "action"],
+      "properties": {
+        "event": { "type": "string" },
+        "source": { "type": "string" },
+        "action": { "type": "string" }
+      }
+    }
+  }
+}

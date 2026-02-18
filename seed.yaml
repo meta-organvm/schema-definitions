@@ -1,0 +1,35 @@
+# seed.yaml — Automation Contract for meta-organvm/schema-definitions
+# Schema: seed/v1.0
+
+schema_version: "1.0"
+organ: Meta
+organ_name: Meta
+repo: schema-definitions
+org: meta-organvm
+
+metadata:
+  implementation_status: ACTIVE
+  tier: standard
+  promotion_status: LOCAL
+  last_validated: "2026-02-17"
+  generated: "2026-02-17"
+  sprint: "INFRASTRUCTURE"
+  language: json
+
+agents:
+  - name: ci
+    trigger: on_push
+    workflow: .github/workflows/ci.yml
+    description: "Validate schemas and run tests"
+
+produces:
+  - type: schema
+    description: "Canonical JSON Schema definitions for all system data contracts"
+    consumers: [ORGAN-IV, META-ORGANVM]
+
+consumes: []
+
+subscriptions:
+  - event: registry.schema-changed
+    source: META-ORGANVM
+    action: Update registry-v2.schema.json to match

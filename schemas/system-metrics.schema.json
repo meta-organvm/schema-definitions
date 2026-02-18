@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/system-metrics.schema.json",
+  "title": "System Metrics",
+  "description": "Schema for system-metrics.json — computed and manual metrics for the eight-organ system.",
+  "type": "object",
+  "required": ["schema_version", "generated", "computed", "manual"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "generated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "computed": {
+      "type": "object",
+      "required": ["total_repos", "active_repos", "archived_repos", "total_organs", "operational_organs"],
+      "properties": {
+        "total_repos": { "type": "integer", "minimum": 0 },
+        "active_repos": { "type": "integer", "minimum": 0 },
+        "archived_repos": { "type": "integer", "minimum": 0 },
+        "total_organs": { "type": "integer", "minimum": 0, "maximum": 8 },
+        "operational_organs": { "type": "integer", "minimum": 0, "maximum": 8 },
+        "ci_workflows": { "type": "integer", "minimum": 0 },
+        "dependency_edges": { "type": "integer", "minimum": 0 },
+        "per_organ": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "repos": { "type": "integer" }
+            }
+          }
+        },
+        "implementation_status": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        },
+        "published_essays": { "type": "integer", "minimum": 0 },
+        "sprints_completed": { "type": "integer", "minimum": 0 },
+        "sprint_names": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "manual": {
+      "type": "object",
+      "properties": {
+        "_note": { "type": "string" },
+        "total_words": { "type": "string" },
+        "total_words_numeric": { "type": "integer" },
+        "total_words_short": { "type": "string" },
+        "code_files": { "type": "integer" },
+        "test_files": { "type": "integer" },
+        "repos_with_tests": { "type": "integer" }
+      }
+    }
+  }
+}
