@@ -41,7 +41,23 @@
         "sprint_names": {
           "type": "array",
           "items": { "type": "string" }
-        }
+        },
+        "word_counts": {
+          "type": "object",
+          "properties": {
+            "readmes": { "type": "integer", "minimum": 0 },
+            "essays": { "type": "integer", "minimum": 0 },
+            "corpus": { "type": "integer", "minimum": 0 },
+            "org_profiles": { "type": "integer", "minimum": 0 },
+            "total": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "total_words": { "type": "string" },
+        "total_words_numeric": { "type": "integer", "minimum": 0 },
+        "total_words_short": { "type": "string" },
+        "code_files": { "type": "integer", "minimum": 0 },
+        "test_files": { "type": "integer", "minimum": 0 },
+        "repos_with_tests": { "type": "integer", "minimum": 0 }
       }
     },
     "manual": {
