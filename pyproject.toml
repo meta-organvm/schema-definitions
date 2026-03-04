@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "organvm-schema-definitions"
-version = "0.1.0"
+version = "1.0.0"
 description = "Canonical JSON Schema definitions for the organvm eight-organ system"
 requires-python = ">=3.11"
 license = "MIT"
