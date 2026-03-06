@@ -149,3 +149,34 @@ class TestGovernanceRulesSchema:
             "audit_thresholds": {},
         }
         assert validate(data, schema) == []
+
+
+class TestSystemOrganismSchema:
+    def test_example_validates(self):
+        schema = load_schema("system-organism.schema.json")
+        with open(EXAMPLES_DIR / "system-organism-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_organs_fails(self):
+        schema = load_schema("system-organism.schema.json")
+        data = {"total_repos": 1, "sys_pct": 50, "generated": "2026-03-06T12:00:00+00:00"}
+        errors = validate(data, schema)
+        assert any("organs" in e for e in errors)
+
+    def test_missing_generated_fails(self):
+        schema = load_schema("system-organism.schema.json")
+        data = {"total_repos": 1, "sys_pct": 50, "organs": []}
+        errors = validate(data, schema)
+        assert any("generated" in e for e in errors)
+
+    def test_invalid_sys_pct_fails(self):
+        schema = load_schema("system-organism.schema.json")
+        data = {
+            "total_repos": 1,
+            "sys_pct": 200,
+            "organs": [],
+            "generated": "2026-03-06T12:00:00+00:00",
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0

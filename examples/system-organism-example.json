@@ -1,0 +1,75 @@
+{
+  "total_repos": 2,
+  "sys_pct": 45,
+  "total_promo_ready": 1,
+  "total_stale": 0,
+  "profiles": {"code-full": 2},
+  "promo_distribution": {"CANDIDATE": 1, "LOCAL": 1},
+  "languages": {"Python": 2},
+  "gate_stats": [
+    {"name": "SEED", "applicable": 2, "passed": 1, "failed": 1, "rate": 50}
+  ],
+  "total_discrepancies": 0,
+  "organs": [
+    {
+      "organ_id": "ORGAN-I",
+      "organ_name": "Theory",
+      "count": 2,
+      "avg_pct": 45,
+      "promo_ready": 1,
+      "stale": 0,
+      "repos": [
+        {
+          "repo": "recursive-engine",
+          "organ": "ORGAN-I",
+          "organ_name": "Theory",
+          "org": "ivviiviivvi",
+          "tier": "flagship",
+          "impl": "ACTIVE",
+          "promo": "CANDIDATE",
+          "profile": "code-full",
+          "primary_lang": "Python",
+          "pct": 60,
+          "score": 6,
+          "max_score": 10,
+          "promo_ready": true,
+          "is_stale": false,
+          "stale_days": null,
+          "next_promo": "PUBLIC_PROCESS",
+          "blockers": [],
+          "next_actions": [],
+          "gates": [
+            {"name": "SEED", "applicable": true, "passed": true, "detail": "found"}
+          ],
+          "discrepancies": []
+        },
+        {
+          "repo": "ontological-framework",
+          "organ": "ORGAN-I",
+          "organ_name": "Theory",
+          "org": "ivviiviivvi",
+          "tier": "standard",
+          "impl": "ACTIVE",
+          "promo": "LOCAL",
+          "profile": "code-full",
+          "primary_lang": "Python",
+          "pct": 30,
+          "score": 3,
+          "max_score": 10,
+          "promo_ready": false,
+          "is_stale": false,
+          "stale_days": null,
+          "next_promo": "CANDIDATE",
+          "blockers": ["CI gate not passed"],
+          "next_actions": ["Add CI workflow"],
+          "gates": [
+            {"name": "SEED", "applicable": true, "passed": false, "detail": "missing"}
+          ],
+          "discrepancies": []
+        }
+      ]
+    }
+  ],
+  "omega": null,
+  "generated": "2026-03-06T12:00:00+00:00"
+}
