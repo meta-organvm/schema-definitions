@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/pillar-dna-v1.schema.json",
+  "title": "Pillar DNA v1",
+  "description": "Schema for pillar DNA files — lifecycle contracts for individual business pillars. Each pillar-dna/<pillar>.yaml defines research scope, artifacts, gen/crit prompts, lifecycle gates, and signal wiring.",
+  "type": "object",
+  "required": ["schema_version", "pillar", "lifecycle_stage"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "pillar": {
+      "type": "string",
+      "description": "Pillar name (delivery, revenue, marketing, community, content, listings, etc.)"
+    },
+    "product_type": {
+      "type": "string",
+      "description": "Product type that drives default scope and artifacts (open vocabulary)"
+    },
+    "lifecycle_stage": {
+      "type": "string",
+      "enum": ["conception", "research", "planning", "building", "live", "optimizing", "mature", "sunset"],
+      "description": "Current lifecycle stage for this pillar"
+    },
+    "research": {
+      "type": "object",
+      "properties": {
+        "scan_scope": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Platforms/channels to monitor for this pillar"
+        },
+        "competitors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Discovered competitors (grows over time)"
+        },
+        "cadence": {
+          "type": "string",
+          "description": "How often to refresh intelligence (e.g. weekly, monthly)"
+        }
+      },
+      "additionalProperties": true
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifact" },
+      "description": "Artifacts this pillar produces"
+    },
+    "gen_prompts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/gen_prompt" },
+      "description": "GEN prompts for agent-driven research"
+    },
+    "crit_prompts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/crit_prompt" },
+      "description": "CRIT prompts for evaluating coverage"
+    },
+    "gates": {
+      "type": "object",
+      "description": "Lifecycle gates — criteria that should be met to advance stages",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "signals": {
+      "type": "object",
+      "properties": {
+        "emits": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "listens": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Artifact identifier"
+        },
+        "description": {
+          "type": "string"
+        },
+        "cadence": {
+          "type": "string",
+          "description": "Production cadence (weekly, monthly, quarterly)"
+        },
+        "staleness_days": {
+          "type": "integer",
+          "description": "Days after which the artifact is considered stale"
+        }
+      },
+      "additionalProperties": true
+    },
+    "gen_prompt": {
+      "type": "object",
+      "required": ["id", "prompt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique prompt identifier"
+        },
+        "trigger": {
+          "type": "string",
+          "description": "When to fire (monthly, quarterly, on_demand)"
+        },
+        "prompt": {
+          "type": "string",
+          "description": "The prompt template (may contain {variables})"
+        }
+      },
+      "additionalProperties": true
+    },
+    "crit_prompt": {
+      "type": "object",
+      "required": ["id", "prompt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique prompt identifier"
+        },
+        "prompt": {
+          "type": "string",
+          "description": "The evaluation prompt template"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

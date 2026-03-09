@@ -1,0 +1,61 @@
+schema_version: "1.0"
+pillar: marketing
+product_type: saas
+lifecycle_stage: research
+
+research:
+  scan_scope:
+    - producthunt
+    - hackernews
+    - reddit
+    - seo
+    - content_marketing
+    - paid_ads
+  competitors:
+    - competitor-a
+    - competitor-b
+  cadence: monthly
+
+artifacts:
+  - name: landscape-snapshot
+    description: "Full competitive landscape scan"
+    cadence: monthly
+    staleness_days: 45
+  - name: channel-strategy
+    description: "Which channels to pursue and why"
+    cadence: quarterly
+    staleness_days: 120
+  - name: competitor-profiles
+    description: "Deep profiles of key competitors"
+    cadence: monthly
+    staleness_days: 60
+
+gen_prompts:
+  - id: landscape_scan
+    trigger: monthly
+    prompt: "Scan the full marketing landscape for saas products. Identify all active platforms, emerging channels, and market gaps."
+  - id: competitor_deep_dive
+    trigger: monthly
+    prompt: "Research competitors in producthunt, hackernews, reddit. Document positioning, pricing, channels, and differentiators."
+
+crit_prompts:
+  - id: coverage_check
+    prompt: "Compare our marketing arms against the landscape snapshot. Are we missing high-value platforms?"
+
+gates:
+  research_to_planning:
+    - "At least one landscape snapshot exists"
+    - "3+ competitors profiled"
+  planning_to_building:
+    - "Channel strategy artifact exists"
+    - "Priority arms identified with next_actions"
+  building_to_live:
+    - "At least one arm has status: live"
+
+signals:
+  emits:
+    - "signal:pillar-stage-change"
+    - "signal:new-competitor-found"
+  listens:
+    - "signal:ecosystem-arm-live"
+    - "signal:market-shift-detected"
