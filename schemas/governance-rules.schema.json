@@ -15,6 +15,11 @@
     },
     "state_machine": { "$ref": "#/$defs/state_machine" },
     "audit_thresholds": { "$ref": "#/$defs/audit_thresholds" },
+    "internalized_principles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of principle IDs from the Mastery Ledger that are formally internalized as structural rules."
+    },
     "organ_requirements": {
       "type": "object",
       "patternProperties": {
