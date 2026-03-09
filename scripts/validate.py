@@ -28,6 +28,9 @@ EXAMPLES_DIR = Path(__file__).resolve().parent.parent / "examples"
 
 # Map file name patterns to schemas
 SCHEMA_MAP = {
+    "system-organism": "system-organism.schema.json",
+    "pillar-dna": "pillar-dna-v1.schema.json",
+    "ecosystem": "ecosystem-v1.schema.json",
     "registry": "registry-v2.schema.json",
     "seed": "seed-v1.schema.json",
     "governance": "governance-rules.schema.json",

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/ecosystem-v1.schema.json",
+  "title": "Ecosystem v1",
+  "description": "Schema for ecosystem.yaml — per-product business ecosystem profile. Pillars are open (any top-level key beyond the header is a pillar). Arms within each pillar must have platform and status.",
+  "type": "object",
+  "required": ["schema_version", "repo", "organ"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "repo": {
+      "type": "string",
+      "description": "Repository name"
+    },
+    "organ": {
+      "type": "string",
+      "description": "Organ short key (I, II, III, IV, V, VI, VII, Meta)"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable product name"
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/pillar"
+  },
+  "$defs": {
+    "pillar": {
+      "type": "array",
+      "description": "A business pillar containing one or more arms",
+      "items": {
+        "$ref": "#/$defs/arm"
+      }
+    },
+    "arm": {
+      "type": "object",
+      "description": "A single platform/channel within a pillar",
+      "required": ["platform", "status"],
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": "Platform or channel name (open vocabulary)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "planned", "in_progress", "live", "paused", "deprecated"],
+          "description": "Current status of this arm"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low", "deferred"],
+          "description": "Priority level"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL for live arms"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Free-text notes"
+        },
+        "ref": {
+          "type": "string",
+          "description": "Cross-reference to kerygma profile, koinonia event, or other system entity"
+        },
+        "next_action": {
+          "type": "string",
+          "description": "Next concrete step to advance this arm"
+        },
+        "target_date": {
+          "type": "string",
+          "description": "Target date or quarter (e.g. 2026-Q2)"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

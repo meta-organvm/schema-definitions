@@ -1,6 +1,8 @@
 """Test JSON Schema definitions against example files."""
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import jsonschema
@@ -151,6 +153,64 @@ class TestGovernanceRulesSchema:
         assert validate(data, schema) == []
 
 
+class TestEcosystemSchema:
+    def test_example_validates(self):
+        schema = load_schema("ecosystem-v1.schema.json")
+        with open(EXAMPLES_DIR / "ecosystem-example.yaml") as f:
+            data = yaml.safe_load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_repo_fails(self):
+        schema = load_schema("ecosystem-v1.schema.json")
+        data = {"schema_version": "1.0", "organ": "III"}
+        errors = validate(data, schema)
+        assert any("repo" in e for e in errors)
+
+    def test_missing_status_in_arm_fails(self):
+        schema = load_schema("ecosystem-v1.schema.json")
+        data = {
+            "schema_version": "1.0",
+            "repo": "x",
+            "organ": "III",
+            "delivery": [{"platform": "web_app"}],
+        }
+        errors = validate(data, schema)
+        assert any("status" in e for e in errors)
+
+    def test_invalid_status_fails(self):
+        schema = load_schema("ecosystem-v1.schema.json")
+        data = {
+            "schema_version": "1.0",
+            "repo": "x",
+            "organ": "III",
+            "delivery": [{"platform": "web_app", "status": "INVALID"}],
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+    def test_custom_pillar_accepted(self):
+        schema = load_schema("ecosystem-v1.schema.json")
+        data = {
+            "schema_version": "1.0",
+            "repo": "x",
+            "organ": "III",
+            "partnerships": [{"platform": "aws", "status": "planned"}],
+        }
+        assert validate(data, schema) == []
+
+    def test_additional_arm_properties_accepted(self):
+        schema = load_schema("ecosystem-v1.schema.json")
+        data = {
+            "schema_version": "1.0",
+            "repo": "x",
+            "organ": "III",
+            "revenue": [
+                {"platform": "subscription", "status": "live", "stripe_id": "prod_123"},
+            ],
+        }
+        assert validate(data, schema) == []
+
+
 class TestSystemOrganismSchema:
     def test_example_validates(self):
         schema = load_schema("system-organism.schema.json")
@@ -180,3 +240,20 @@ class TestSystemOrganismSchema:
         }
         errors = validate(data, schema)
         assert len(errors) > 0
+
+
+class TestValidateScriptAutoDetect:
+    def test_detects_system_organism_and_pillar_dna_examples(self):
+        script = Path(__file__).resolve().parent.parent / "scripts" / "validate.py"
+        organism = EXAMPLES_DIR / "system-organism-example.json"
+        pillar = EXAMPLES_DIR / "pillar-dna-example.yaml"
+        result = subprocess.run(
+            [sys.executable, str(script), str(organism), str(pillar)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        assert result.returncode == 0, result.stdout + result.stderr
+        assert "PASS system-organism-example.json" in result.stdout
+        assert "PASS pillar-dna-example.yaml" in result.stdout

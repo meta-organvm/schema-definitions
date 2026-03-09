@@ -1,0 +1,52 @@
+schema_version: "1.0"
+repo: peer-audited--behavioral-blockchain
+organ: III
+display_name: "Styx Behavioral Market"
+
+delivery:
+  - platform: web_app
+    status: in_progress
+    url: "https://styx.market"
+    framework: nextjs
+    priority: critical
+    next_action: "Deploy to Vercel"
+  - platform: mobile_app_ios
+    status: planned
+    framework: react-native
+    priority: high
+    target_date: "2026-Q2"
+
+revenue:
+  - platform: subscription
+    status: planned
+    priority: critical
+    next_action: "Stripe integration"
+  - platform: marketplace_commission
+    status: planned
+    rate: "2.5%"
+    priority: high
+
+marketing:
+  - platform: producthunt
+    status: not_started
+    priority: high
+    next_action: "Prepare launch page"
+  - platform: content_marketing
+    status: in_progress
+    notes: "Essays in ORGAN-V about behavioral markets"
+    ref: "organvm-v-logos/public-process"
+
+community:
+  - platform: discord
+    status: planned
+    ref: "kerygma:peer-audited--behavioral-blockchain"
+  - platform: github_discussions
+    status: live
+
+content:
+  - platform: docs_site
+    status: in_progress
+  - platform: youtube
+    status: not_started
+    priority: medium
+    next_action: "Record demo video"

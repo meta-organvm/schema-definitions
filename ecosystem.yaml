@@ -1,0 +1,9 @@
+schema_version: '1.0'
+repo: schema-definitions
+organ: META
+display_name: "Canonical JSON Schema definitions for all eight-organ system data contracts\
+  \ \u2014 registry, seed.yaml, governance rules, dispatch payloads, soak tests, and\
+  \ system metrics."
+delivery:
+- platform: web_app
+  status: not_started
