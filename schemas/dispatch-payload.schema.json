@@ -42,6 +42,144 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "event": { "const": "theory.published" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["artifact_id", "title", "source_repo"],
+            "properties": {
+              "artifact_id": { "type": "string", "minLength": 1 },
+              "title": { "type": "string", "minLength": 1 },
+              "source_repo": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "theory.updated" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["artifact_id", "source_repo", "change_summary"],
+            "properties": {
+              "artifact_id": { "type": "string", "minLength": 1 },
+              "source_repo": { "type": "string", "minLength": 1 },
+              "change_summary": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "product.release" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["version", "repo", "changelog_url"],
+            "properties": {
+              "version": { "type": "string", "minLength": 1 },
+              "repo": { "type": "string", "minLength": 1 },
+              "changelog_url": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "product.milestone" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["milestone", "repo", "description"],
+            "properties": {
+              "milestone": { "type": "string", "minLength": 1 },
+              "repo": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "essay.published" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["title", "slug", "word_count", "category"],
+            "properties": {
+              "title": { "type": "string", "minLength": 1 },
+              "slug": { "type": "string", "minLength": 1 },
+              "word_count": { "type": "integer", "minimum": 1 },
+              "category": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "governance.updated" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["rule_id", "change_type"],
+            "properties": {
+              "rule_id": { "type": "string", "minLength": 1 },
+              "change_type": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "community.event_created" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["event_type", "title", "date"],
+            "properties": {
+              "event_type": { "type": "string", "minLength": 1 },
+              "title": { "type": "string", "minLength": 1 },
+              "date": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "distribution.dispatched" } }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["channel_id", "platform", "payload_hash"],
+            "properties": {
+              "channel_id": { "type": "string", "minLength": 1 },
+              "platform": { "type": "string", "minLength": 1 },
+              "payload_hash": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "endpoint": {
       "type": "object",
