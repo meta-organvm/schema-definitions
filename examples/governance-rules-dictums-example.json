@@ -1,0 +1,86 @@
+{
+  "version": "2.0",
+  "dependency_rules": {
+    "max_transitive_depth": 4,
+    "no_circular_dependencies": true,
+    "no_back_edges": true,
+    "restricted_organs": ["ORGAN-I", "ORGAN-II", "ORGAN-III"],
+    "restricted_orgs": ["organvm-i-theoria", "organvm-ii-poiesis", "organvm-iii-ergon"]
+  },
+  "promotion_rules": {
+    "promote-to-art": {
+      "source_organ": "ORGAN-I",
+      "destination_organ": "ORGAN-II",
+      "conditions": ["Source repo has documentation"],
+      "naming": "art-from--{source_repo_name}"
+    }
+  },
+  "state_machine": {
+    "states": ["LOCAL", "CANDIDATE", "PUBLIC_PROCESS", "GRADUATED", "ARCHIVED"],
+    "transitions": {
+      "LOCAL": ["CANDIDATE", "ARCHIVED"],
+      "CANDIDATE": ["PUBLIC_PROCESS", "LOCAL", "ARCHIVED"],
+      "PUBLIC_PROCESS": ["GRADUATED", "CANDIDATE", "ARCHIVED"],
+      "GRADUATED": ["ARCHIVED"],
+      "ARCHIVED": []
+    }
+  },
+  "audit_thresholds": {
+    "critical": {
+      "missing_readme": true,
+      "circular_dependency": true,
+      "back_edge_violation": true,
+      "organ_has_zero_repos": true
+    },
+    "warning": {
+      "stale_repo_days": 90,
+      "missing_changelog": true,
+      "missing_ci_workflow": true
+    }
+  },
+  "organ_requirements": {
+    "ORGAN-I": { "min_repos": 1, "requires_readme": true },
+    "ORGAN-III": { "min_repos": 1, "requires_readme": true, "requires_revenue_fields": true }
+  },
+  "schema_version": "2",
+  "dictums": {
+    "schema_version": "1",
+    "preamble": "Example dictums section for schema validation.",
+    "axioms": [
+      {
+        "id": "AX-1",
+        "name": "DAG Invariant",
+        "statement": "The dependency graph is a strict DAG: I→II→III.",
+        "enforcement": "automated",
+        "validator": "validate_dag_invariant",
+        "references": ["governance/dependency_graph.py"],
+        "severity": "critical"
+      }
+    ],
+    "organ_dictums": {
+      "ORGAN-III": [
+        {
+          "id": "OD-III",
+          "name": "Ergon Factory Gate",
+          "statement": "ORGAN-III repos must have revenue_model and CI.",
+          "constraints": { "requires_revenue_model": true, "requires_ci": true },
+          "enforcement": "automated",
+          "validator": "validate_organ_iii_factory",
+          "severity": "warning"
+        }
+      ]
+    },
+    "repo_rules": [
+      {
+        "id": "RR-1",
+        "name": "Seed Contract Mandate",
+        "statement": "Every non-archived repo must have seed.yaml.",
+        "enforcement": "automated",
+        "validator": "validate_seed_mandate",
+        "references": ["seed/discover.py"],
+        "severity": "warning",
+        "applies_to": "all non-archived repos"
+      }
+    ]
+  }
+}
