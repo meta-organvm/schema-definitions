@@ -1,0 +1,16 @@
+{
+  "policy_id": "pol-promote-ready",
+  "name": "Promotion Readiness",
+  "description": "CANDIDATE repos with CI, platinum status, and ACTIVE implementation are ready for promotion to PUBLIC_PROCESS.",
+  "conditions": [
+    {"field": "promotion_status", "operator": "eq", "value": "CANDIDATE"},
+    {"field": "ci_workflow", "operator": "ne", "value": ""},
+    {"field": "platinum_status", "operator": "eq", "value": true},
+    {"field": "implementation_status", "operator": "eq", "value": "ACTIVE"}
+  ],
+  "action": "promote",
+  "scope_entity_type": "repo",
+  "priority": 10,
+  "enabled": true,
+  "metadata": {}
+}

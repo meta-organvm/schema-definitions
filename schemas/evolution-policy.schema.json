@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/evolution-policy.schema.json",
+  "title": "Evolution Policy",
+  "description": "Governance policies that define conditions under which structural changes should be triggered. Policies evaluate entity states and recommend actions (promote, flag, notify, etc.).",
+  "type": "object",
+  "required": ["policy_id", "name", "conditions", "action"],
+  "properties": {
+    "policy_id": {
+      "type": "string",
+      "pattern": "^pol-[a-z0-9-]+$",
+      "description": "Unique policy identifier (kebab-case with pol- prefix)",
+      "examples": ["pol-promote-ready", "pol-missing-ci"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable policy name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Explanation of when and why this policy triggers"
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/PolicyCondition" },
+      "description": "All conditions must be met for the policy to trigger"
+    },
+    "action": {
+      "type": "string",
+      "enum": ["rename", "relocate", "merge", "split", "deprecate", "promote", "flag", "notify"],
+      "description": "Action to take when conditions are met"
+    },
+    "scope_entity_type": {
+      "type": ["string", "null"],
+      "enum": ["organ", "repo", "module", "document", "session", null],
+      "description": "Restrict policy to this entity type"
+    },
+    "priority": {
+      "type": "integer",
+      "default": 0,
+      "description": "Higher priority policies are evaluated first"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this policy is active"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Extensible metadata"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "PolicyCondition": {
+      "type": "object",
+      "required": ["field", "operator", "value"],
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "Entity state field to check"
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["eq", "ne", "gt", "lt", "gte", "lte", "in", "not_in", "contains"],
+          "description": "Comparison operator"
+        },
+        "value": {
+          "description": "Expected value for comparison"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

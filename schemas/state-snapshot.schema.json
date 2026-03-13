@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/state-snapshot.schema.json",
+  "title": "State Snapshot",
+  "description": "Frozen view of an entity's state at a specific time. Snapshots capture properties, metric values, structural fingerprint, and variable bindings. Used for drift detection by comparing successive snapshots.",
+  "type": "object",
+  "required": ["snapshot_id", "entity_id", "timestamp"],
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Unique snapshot identifier (snap_{ulid} or snap_fallback_{entity_prefix})",
+      "examples": ["snap_01JARQ5XB3ABCDEFGHJKMNPQRS"]
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Entity UID or name this snapshot represents"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when snapshot was taken"
+    },
+    "properties": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Entity properties at snapshot time (promotion_status, tier, ci_workflow, etc.)"
+    },
+    "metric_values": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Numeric metric values at snapshot time"
+    },
+    "structural_fingerprint": {
+      "type": "string",
+      "description": "Hash of the entity's structural position (hierarchy + relations)"
+    },
+    "variable_bindings": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Variable bindings at snapshot time"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Extensible metadata"
+    }
+  },
+  "additionalProperties": false
+}

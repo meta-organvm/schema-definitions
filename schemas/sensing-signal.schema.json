@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/sensing-signal.schema.json",
+  "title": "Sensing Signal",
+  "description": "Raw signals and normalized changes emitted by ontologia sensors. Sensors watch system data (registry, soak, CI) and produce signals that feed inference and governance layers.",
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/$defs/RawSignal" },
+    { "$ref": "#/$defs/NormalizedChange" }
+  ],
+  "$defs": {
+    "RawSignal": {
+      "type": "object",
+      "required": ["sensor_name", "signal_type"],
+      "properties": {
+        "sensor_name": {
+          "type": "string",
+          "description": "Name of the sensor that produced this signal",
+          "examples": ["registry_sensor", "soak_sensor", "ci_sensor", "promotion_sensor"]
+        },
+        "signal_type": {
+          "type": "string",
+          "description": "Type of signal detected",
+          "examples": ["repo_added", "field_changed", "validation_failure", "missing_ci", "ready_to_promote"]
+        },
+        "entity_id": {
+          "type": ["string", "null"],
+          "description": "Entity UID or name hint associated with the signal"
+        },
+        "details": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Signal-specific detail payload"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of signal detection"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": 1.0,
+          "description": "Confidence score (0.0 to 1.0)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "NormalizedChange": {
+      "type": "object",
+      "required": ["change_type", "entity_id"],
+      "properties": {
+        "change_type": {
+          "type": "string",
+          "enum": ["state", "relation", "hierarchy", "semantic", "anomaly"],
+          "description": "Category of detected change"
+        },
+        "entity_id": {
+          "type": "string",
+          "description": "Entity UID the change applies to"
+        },
+        "property_name": {
+          "type": ["string", "null"],
+          "description": "Name of the changed property"
+        },
+        "previous_value": {
+          "description": "Value before the change"
+        },
+        "new_value": {
+          "description": "Value after the change"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": 1.0
+        },
+        "source_sensor": {
+          "type": "string",
+          "description": "Sensor that produced this change"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

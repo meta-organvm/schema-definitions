@@ -1,0 +1,13 @@
+{
+  "sensor_name": "registry_sensor",
+  "signal_type": "field_changed",
+  "entity_id": "organvm-engine",
+  "details": {
+    "repo": "organvm-engine",
+    "field": "promotion_status",
+    "old": "CANDIDATE",
+    "new": "PUBLIC_PROCESS"
+  },
+  "timestamp": "2026-03-13T12:00:00+00:00",
+  "confidence": 1.0
+}
