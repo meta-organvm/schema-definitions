@@ -1,0 +1,12 @@
+{
+  "uid": "ent_repo_01JARQ5XB3ABCDEFGHJKMNPQRS",
+  "entity_type": "repo",
+  "lifecycle_status": "active",
+  "created_at": "2026-03-13T10:00:00Z",
+  "created_by": "bootstrap",
+  "metadata": {
+    "organ": "META-ORGANVM",
+    "github_org": "meta-organvm",
+    "original_name": "organvm-engine"
+  }
+}

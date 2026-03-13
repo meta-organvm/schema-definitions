@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/name-record.schema.json",
+  "title": "Name Record",
+  "description": "Temporal name binding for an entity in the ontologia naming system. Each record represents a display name with a validity window; an entity can have multiple active names (aliases) but exactly one primary.",
+  "type": "object",
+  "required": ["entity_id", "display_name", "slug", "valid_from"],
+  "properties": {
+    "entity_id": {
+      "type": "string",
+      "pattern": "^ent_[a-z]+_[0-9A-HJKMNP-TV-Z]{26}$",
+      "description": "UID of the entity this name belongs to"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name for display purposes"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$",
+      "description": "URL-safe version of the display name (double-hyphens are semantic separators)"
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this name became active"
+    },
+    "valid_to": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "default": null,
+      "description": "ISO 8601 timestamp when this name was retired (null if still active)"
+    },
+    "is_primary": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this is the primary display name for the entity"
+    },
+    "source": {
+      "type": "string",
+      "default": "system",
+      "description": "What created this name record (user, agent, bootstrap, or system component)"
+    }
+  },
+  "additionalProperties": false
+}

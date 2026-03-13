@@ -1,0 +1,14 @@
+{
+  "event_type": "entity.created",
+  "source": "ontologia.registry",
+  "timestamp": "2026-03-13T10:00:00Z",
+  "subject_entity": "ent_repo_01JARQ5XB3ABCDEFGHJKMNPQRS",
+  "changed_property": null,
+  "previous_value": null,
+  "new_value": null,
+  "payload": {
+    "entity_type": "repo",
+    "created_by": "bootstrap",
+    "organ": "META-ORGANVM"
+  }
+}

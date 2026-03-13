@@ -38,6 +38,9 @@ SCHEMA_MAP = {
     "soak": "soak-test.schema.json",
     "daily": "soak-test.schema.json",
     "metrics": "system-metrics.schema.json",
+    "entity-identity": "entity-identity.schema.json",
+    "name-record": "name-record.schema.json",
+    "ontologia-event": "ontologia-event.schema.json",
 }
 
 
