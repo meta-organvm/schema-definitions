@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/pulse-event.schema.json",
+  "title": "Pulse Event",
+  "description": "Unified event from the ORGANVM pulse bus. Superset of ontologia-event — includes all ontologia entity lifecycle events plus engine-domain events (governance, registry, coordination, metrics, seeds, context, sensors, pulse).",
+  "type": "object",
+  "required": ["event_type", "source", "timestamp"],
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "Event type constant from either ontologia or engine domain",
+      "enum": [
+        "entity.created",
+        "entity.deprecated",
+        "entity.archived",
+        "name.added",
+        "name.retired",
+        "name.primary_changed",
+        "entity.renamed",
+        "entity.relocated",
+        "entity.reclassified",
+        "entity.merged",
+        "entity.split",
+        "bootstrap.completed",
+        "store.loaded",
+        "store.saved",
+        "governance.promotion_changed",
+        "governance.gate_evaluated",
+        "governance.dependency_violation",
+        "governance.audit_completed",
+        "registry.updated",
+        "registry.loaded",
+        "coordination.punch_in",
+        "coordination.punch_out",
+        "coordination.capacity_warning",
+        "metrics.organism_computed",
+        "metrics.staleness_detected",
+        "seed.edge_added",
+        "seed.edge_removed",
+        "seed.unresolved_consumer",
+        "context.synced",
+        "context.ammoi_distributed",
+        "sensor.scan_completed",
+        "sensor.change_detected",
+        "pulse.heartbeat",
+        "pulse.ammoi_computed"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component that emitted this event (e.g., 'engine:governance', 'sensor:registry')"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the event occurred"
+    },
+    "subject_entity": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "UID of the entity this event concerns (null for system-level events)"
+    },
+    "changed_property": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Which property changed (if applicable)"
+    },
+    "previous_value": {
+      "description": "Value before the change (type varies by event)"
+    },
+    "new_value": {
+      "description": "Value after the change (type varies by event)"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "default": {},
+      "description": "Additional event-specific data"
+    }
+  },
+  "additionalProperties": false
+}

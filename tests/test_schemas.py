@@ -242,6 +242,101 @@ class TestSystemOrganismSchema:
         assert len(errors) > 0
 
 
+class TestPulseEventSchema:
+    def test_example_validates(self):
+        schema = load_schema("pulse-event.schema.json")
+        with open(EXAMPLES_DIR / "pulse-event-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_ontologia_event_validates(self):
+        """Pulse event schema is a superset of ontologia events."""
+        schema = load_schema("pulse-event.schema.json")
+        with open(EXAMPLES_DIR / "ontologia-event-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_invalid_event_type_fails(self):
+        schema = load_schema("pulse-event.schema.json")
+        data = {
+            "event_type": "not.a.real.event",
+            "source": "test",
+            "timestamp": "2026-03-13T10:00:00Z",
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+    def test_missing_source_fails(self):
+        schema = load_schema("pulse-event.schema.json")
+        data = {
+            "event_type": "pulse.heartbeat",
+            "timestamp": "2026-03-13T10:00:00Z",
+        }
+        errors = validate(data, schema)
+        assert any("source" in e for e in errors)
+
+
+class TestAmmoiSchema:
+    def test_example_validates(self):
+        schema = load_schema("ammoi-v1.schema.json")
+        with open(EXAMPLES_DIR / "ammoi-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_organs_fails(self):
+        schema = load_schema("ammoi-v1.schema.json")
+        data = {
+            "timestamp": "2026-03-13T15:00:00Z",
+            "system_density": 0.5,
+            "total_entities": 10,
+        }
+        errors = validate(data, schema)
+        assert any("organs" in e for e in errors)
+
+    def test_density_out_of_range_fails(self):
+        schema = load_schema("ammoi-v1.schema.json")
+        data = {
+            "timestamp": "2026-03-13T15:00:00Z",
+            "system_density": 1.5,
+            "total_entities": 10,
+            "organs": {},
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+    def test_minimal_organ_validates(self):
+        schema = load_schema("ammoi-v1.schema.json")
+        data = {
+            "timestamp": "2026-03-13T15:00:00Z",
+            "system_density": 0.5,
+            "total_entities": 10,
+            "organs": {
+                "ORGAN-I": {
+                    "organ_id": "ORGAN-I",
+                    "organ_name": "Theory",
+                }
+            },
+        }
+        assert validate(data, schema) == []
+
+    def test_organ_extra_fields_rejected(self):
+        schema = load_schema("ammoi-v1.schema.json")
+        data = {
+            "timestamp": "2026-03-13T15:00:00Z",
+            "system_density": 0.5,
+            "total_entities": 10,
+            "organs": {
+                "ORGAN-I": {
+                    "organ_id": "ORGAN-I",
+                    "organ_name": "Theory",
+                    "bogus_field": 99,
+                }
+            },
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+
 class TestValidateScriptAutoDetect:
     def test_detects_system_organism_and_pillar_dna_examples(self):
         script = Path(__file__).resolve().parent.parent / "scripts" / "validate.py"

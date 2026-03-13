@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-03-13T15:00:00Z",
+  "system_density": 0.42,
+  "total_entities": 112,
+  "active_edges": 87,
+  "active_loops": 0,
+  "tension_count": 3,
+  "event_frequency_24h": 42,
+  "density_delta_24h": 0.015,
+  "density_delta_7d": 0.03,
+  "density_delta_30d": 0.08,
+  "organs": {
+    "ORGAN-I": {
+      "organ_id": "ORGAN-I",
+      "organ_name": "Theory",
+      "repo_count": 20,
+      "internal_edges": 5,
+      "cross_edges": 12,
+      "avg_gate_pct": 38,
+      "event_frequency_24h": 8,
+      "active_agents": 0,
+      "tension_count": 1,
+      "density": 0.38
+    },
+    "META-ORGANVM": {
+      "organ_id": "META-ORGANVM",
+      "organ_name": "Meta",
+      "repo_count": 8,
+      "internal_edges": 10,
+      "cross_edges": 15,
+      "avg_gate_pct": 65,
+      "event_frequency_24h": 20,
+      "active_agents": 1,
+      "tension_count": 0,
+      "density": 0.65
+    }
+  },
+  "pulse_count": 96,
+  "pulse_interval": 900,
+  "compressed_text": "AMMOI:42% E:87 T:3 Ev24h:42 [META-ORGANVM:65%, ORGAN-I:38%] | d24h:+1.5%"
+}

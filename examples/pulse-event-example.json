@@ -1,0 +1,13 @@
+{
+  "event_type": "governance.promotion_changed",
+  "source": "engine:governance",
+  "timestamp": "2026-03-13T14:30:00Z",
+  "subject_entity": "ent_repo_01JARQ5XB3ABCDEFGHJKMNPQRS",
+  "changed_property": "promotion_status",
+  "previous_value": "CANDIDATE",
+  "new_value": "PUBLIC_PROCESS",
+  "payload": {
+    "previous_state": "CANDIDATE",
+    "new_state": "PUBLIC_PROCESS"
+  }
+}

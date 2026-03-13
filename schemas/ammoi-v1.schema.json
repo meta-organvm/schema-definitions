@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/ammoi-v1.schema.json",
+  "title": "AMMOI Snapshot",
+  "description": "Adaptive Macro-Micro Ontological Index — a compressed multi-scale density snapshot of the ORGANVM system. Computes density at macro (system), meso (organ), and micro (entity) scales. Each snapshot is appended to ammoi-history.jsonl for temporal analysis.",
+  "type": "object",
+  "required": ["timestamp", "system_density", "total_entities", "organs"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when this snapshot was computed"
+    },
+    "system_density": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Overall system density score (0.0–1.0)"
+    },
+    "total_entities": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total entities (repos + organs) in the system"
+    },
+    "active_edges": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Number of declared inter-repo edges in the seed graph"
+    },
+    "active_loops": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Number of active feedback loops"
+    },
+    "tension_count": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Current tension indicators from ontologia inference"
+    },
+    "event_frequency_24h": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Total events emitted in the last 24 hours"
+    },
+    "density_delta_24h": {
+      "type": "number",
+      "default": 0.0,
+      "description": "Change in system density vs 24 hours ago"
+    },
+    "density_delta_7d": {
+      "type": "number",
+      "default": 0.0,
+      "description": "Change in system density vs 7 days ago"
+    },
+    "density_delta_30d": {
+      "type": "number",
+      "default": 0.0,
+      "description": "Change in system density vs 30 days ago"
+    },
+    "organs": {
+      "type": "object",
+      "description": "Per-organ density profiles, keyed by organ ID (e.g., ORGAN-I, META-ORGANVM)",
+      "additionalProperties": {
+        "$ref": "#/$defs/organ_density"
+      }
+    },
+    "pulse_count": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Total pulse snapshots recorded since inception"
+    },
+    "pulse_interval": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 900,
+      "description": "Seconds between pulse cycles"
+    },
+    "compressed_text": {
+      "type": "string",
+      "default": "",
+      "description": "Human-readable ~200-char summary for context injection"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "organ_density": {
+      "type": "object",
+      "required": ["organ_id", "organ_name"],
+      "properties": {
+        "organ_id": {
+          "type": "string",
+          "description": "Organ identifier (e.g., ORGAN-I, META-ORGANVM)"
+        },
+        "organ_name": {
+          "type": "string",
+          "description": "Human-readable organ name"
+        },
+        "repo_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "internal_edges": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Edges between repos within this organ"
+        },
+        "cross_edges": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Edges connecting this organ to other organs"
+        },
+        "avg_gate_pct": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 0,
+          "description": "Average gate pass percentage across repos"
+        },
+        "event_frequency_24h": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "active_agents": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "tension_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "density": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": 0.0,
+          "description": "Composite organ density score (0.0–1.0)"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
