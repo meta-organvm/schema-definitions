@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/formation.schema.json",
+  "title": "Formation Declaration",
+  "description": "Schema for formation.yaml — the formation-level automation contract declaring signal topology, cadence, and governance constraints per INST-FORMATION (FORM-001 through FORM-007).",
+  "type": "object",
+  "required": [
+    "formation_id",
+    "formation_name",
+    "formation_type",
+    "host_organ_primary",
+    "metaphysical_role",
+    "question",
+    "signal_inputs",
+    "signal_outputs",
+    "maturity_level",
+    "promotion_state",
+    "exit_modes"
+  ],
+  "properties": {
+    "formation_id": {
+      "type": "string",
+      "pattern": "^FORM-\\d{3}$",
+      "description": "Unique formation identifier (e.g., FORM-001)"
+    },
+    "formation_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name for this formation"
+    },
+    "formation_type": {
+      "type": "string",
+      "enum": [
+        "GENERATOR",
+        "TRANSFORMER",
+        "ROUTER",
+        "RESERVOIR",
+        "INTERFACE",
+        "LABORATORY",
+        "SYNTHESIZER"
+      ],
+      "description": "One of the seven canonical formation types"
+    },
+    "host_organ_primary": {
+      "type": "string",
+      "description": "Primary organ this formation belongs to (e.g., ORGAN-I, META-ORGANVM)"
+    },
+    "host_organ_secondary": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Additional organs this formation participates in"
+    },
+    "metaphysical_role": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The formation's role in the system's ontological architecture"
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The fundamental question this formation exists to answer"
+    },
+    "signal_inputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/signal_class" },
+      "description": "Signal classes this formation consumes"
+    },
+    "signal_outputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/signal_class" },
+      "description": "Signal classes this formation produces"
+    },
+    "maturity_level": {
+      "type": "string",
+      "pattern": "^R[0-8]$",
+      "description": "Top-Down Refinement Pipeline maturity level (R0 vision through R8 evolution law)"
+    },
+    "promotion_state": {
+      "type": "string",
+      "enum": [
+        "INCUBATOR",
+        "LOCAL",
+        "CANDIDATE",
+        "PUBLIC_PROCESS",
+        "GRADUATED",
+        "ARCHIVED"
+      ],
+      "description": "Current promotion state in the governance state machine"
+    },
+    "exit_modes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["migrate", "archive", "synthesize", "dissolve"]
+      },
+      "minItems": 1,
+      "description": "Permitted exit strategies for this formation"
+    },
+    "scope_boundary": {
+      "$ref": "#/$defs/scope_boundary",
+      "description": "Explicit boundary of what this formation includes and excludes"
+    },
+    "feedback_policy": {
+      "type": "string",
+      "description": "How feedback signals from downstream are handled"
+    },
+    "feedfront_policy": {
+      "type": "string",
+      "description": "How feedforward signals to downstream are shaped"
+    },
+    "clock_source": {
+      "type": "string",
+      "description": "What drives this formation's cadence (e.g., event-driven, cron, manual)"
+    },
+    "attenuation_policy": {
+      "type": "string",
+      "description": "How this formation dampens or amplifies signals at boundaries"
+    },
+    "max_active_horizon_days": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum number of days this formation may remain active without review"
+    },
+    "migration_target_classes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Formation types this formation may migrate into"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "signal_class": {
+      "type": "string",
+      "description": "One of the 14 canonical signal classes or a custom extension"
+    },
+    "scope_boundary": {
+      "type": "object",
+      "properties": {
+        "includes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Repos, modules, or domains explicitly within scope"
+        },
+        "excludes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Repos, modules, or domains explicitly out of scope"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
