@@ -1,0 +1,17 @@
+{
+  "id": "const001a1b2c",
+  "modality": "visual",
+  "format": "svg",
+  "source_module": "registry",
+  "organ": null,
+  "title": "System Constellation",
+  "description": "Eight-organ topology as stellar constellation — 113 repos positioned by organ membership, sized by repo count, colored by taste.yaml palette",
+  "path": "/Users/4jp/.organvm/testament/artifacts/system-constellation.svg",
+  "timestamp": "2026-03-20T04:57:27Z",
+  "metadata": {
+    "palette_source": "alchemia-ingestvm/taste.yaml",
+    "renderer": "svg.render_constellation",
+    "spec_trace": "INST-GENERATIVE-TESTAMENT",
+    "data_snapshot": "registry-v2.json@842ffb3"
+  }
+}
