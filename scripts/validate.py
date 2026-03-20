@@ -32,6 +32,7 @@ SCHEMA_MAP = {
     "pillar-dna": "pillar-dna-v1.schema.json",
     "ecosystem": "ecosystem-v1.schema.json",
     "registry": "registry-v2.schema.json",
+    "seed-v1.1": "seed-v1.1.schema.json",
     "seed": "seed-v1.schema.json",
     "governance": "governance-rules.schema.json",
     "dispatch": "dispatch-payload.schema.json",
@@ -41,6 +42,8 @@ SCHEMA_MAP = {
     "entity-identity": "entity-identity.schema.json",
     "name-record": "name-record.schema.json",
     "ontologia-event": "ontologia-event.schema.json",
+    "organ-definitions": "organ-definitions.schema.json",
+    "excavation-report": "excavation-report.schema.json",
 }
 
 

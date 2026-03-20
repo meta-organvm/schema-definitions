@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/seed-v1.1.schema.json",
+  "title": "Seed v1.1",
+  "description": "Schema for seed.yaml v1.1 — adds ownership, collaborator declarations, and review gates to the per-repo automation contract.",
+  "type": "object",
+  "required": ["schema_version", "organ", "repo", "org"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0", "1.1"]
+    },
+    "organ": {
+      "type": "string",
+      "description": "Organ number (I, II, III, IV, V, VI, VII, Meta)"
+    },
+    "organ_name": {
+      "type": "string",
+      "description": "Human-readable organ name"
+    },
+    "repo": {
+      "type": "string",
+      "description": "Repository name"
+    },
+    "org": {
+      "type": "string",
+      "description": "GitHub organization"
+    },
+    "metadata": { "$ref": "#/$defs/metadata" },
+    "agents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/agent" }
+    },
+    "produces": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/produces_entry" }
+    },
+    "consumes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/consumes_entry" }
+    },
+    "subscriptions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/subscription" }
+    },
+    "ownership": { "$ref": "#/$defs/ownership" },
+    "review": { "$ref": "#/$defs/review" }
+  },
+  "$defs": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "implementation_status": {
+          "type": "string",
+          "enum": ["ACTIVE", "PROTOTYPE", "SKELETON", "DESIGN_ONLY", "ARCHIVED"]
+        },
+        "tier": {
+          "type": "string",
+          "enum": ["flagship", "standard", "stub", "archive", "infrastructure"]
+        },
+        "promotion_status": {
+          "type": "string",
+          "enum": ["LOCAL", "CANDIDATE", "PUBLIC_PROCESS", "GRADUATED", "ARCHIVED"]
+        },
+        "last_validated": { "type": "string" },
+        "generated": { "type": "string" },
+        "sprint": { "type": "string" },
+        "language": { "type": "string" }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "required": ["name", "trigger"],
+      "properties": {
+        "name": { "type": "string" },
+        "trigger": {
+          "type": "string",
+          "enum": ["on_push", "on_pull_request", "on_schedule", "manual"]
+        },
+        "workflow": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "produces_entry": {
+      "type": "object",
+      "required": ["type", "description"],
+      "properties": {
+        "type": { "type": "string" },
+        "description": { "type": "string" },
+        "consumers": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "consumes_entry": {
+      "type": "object",
+      "required": ["type", "source"],
+      "properties": {
+        "type": { "type": "string" },
+        "source": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "subscription": {
+      "type": "object",
+      "required": ["event", "source", "action"],
+      "properties": {
+        "event": { "type": "string" },
+        "source": { "type": "string" },
+        "action": { "type": "string" }
+      }
+    },
+    "ownership": {
+      "type": "object",
+      "description": "Ownership and access declarations for collaborative development.",
+      "properties": {
+        "lead": {
+          "type": "string",
+          "description": "Handle of the primary responsible human"
+        },
+        "collaborators": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/collaborator" }
+        },
+        "ai_agents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ai_agent" }
+        }
+      }
+    },
+    "collaborator": {
+      "type": "object",
+      "required": ["handle", "role"],
+      "properties": {
+        "handle": {
+          "type": "string",
+          "description": "Unique handle for the collaborator"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["contributor", "reviewer", "lead"],
+          "description": "Role within this repo"
+        },
+        "access": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["read", "edit", "commit", "pr", "promote", "audit", "release"]
+          },
+          "description": "Granted access capabilities"
+        },
+        "organs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Organ scope limitation (empty = this repo only)"
+        },
+        "since": {
+          "type": "string",
+          "description": "ISO date when collaborator was added"
+        }
+      }
+    },
+    "ai_agent": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Agent type (claude, gemini, codex, etc.)"
+        },
+        "access": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["read", "edit", "commit", "pr", "promote", "audit", "release"]
+          }
+        },
+        "scope": {
+          "type": "string",
+          "description": "Free-text description of what this agent may work on"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "description": "Review gate requirements for promotion transitions.",
+      "properties": {
+        "promote_to_candidate": { "$ref": "#/$defs/review_gate" },
+        "promote_to_public_process": { "$ref": "#/$defs/review_gate" },
+        "promote_to_graduated": { "$ref": "#/$defs/review_gate" }
+      }
+    },
+    "review_gate": {
+      "type": "object",
+      "required": ["requires"],
+      "properties": {
+        "requires": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of conditions that must be met for this transition"
+        }
+      }
+    }
+  }
+}

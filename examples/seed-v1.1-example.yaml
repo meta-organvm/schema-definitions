@@ -1,0 +1,63 @@
+schema_version: "1.1"
+organ: Meta
+organ_name: Meta
+repo: organvm-engine
+org: meta-organvm
+
+metadata:
+  implementation_status: ACTIVE
+  tier: flagship
+  promotion_status: CANDIDATE
+  last_validated: "2026-02-17"
+  language: python
+
+agents:
+  - name: ci
+    trigger: on_push
+    workflow: .github/workflows/ci.yml
+    description: "Run tests and type checks"
+
+ownership:
+  lead: "4jp"
+  collaborators:
+    - handle: "chris"
+      role: contributor
+      access: [commit, pr]
+      organs: [ORGAN-II]
+      since: "2026-04-01"
+  ai_agents:
+    - type: claude
+      access: [read, edit, pr]
+      scope: "code and tests"
+    - type: gemini
+      access: [read]
+      scope: "documentation and research"
+
+review:
+  promote_to_candidate:
+    requires: [ci_pass, lead_approval]
+  promote_to_public_process:
+    requires: [ci_pass, lead_approval, code_review]
+  promote_to_graduated:
+    requires: [ci_pass, organ_lead_approval, stranger_test]
+
+produces:
+  - type: governance-policy
+    description: "Registry validation, dependency checking, governance audit results"
+    consumers: [ORGAN-IV, META-ORGANVM]
+  - type: registry
+    description: "Programmatic registry access and updates"
+    consumers: [ORGAN-IV, META-ORGANVM]
+
+consumes:
+  - type: registry
+    source: META-ORGANVM
+    description: "Reads registry-v2.json as primary data source"
+  - type: schema
+    source: META-ORGANVM
+    description: "Uses JSON Schema definitions for validation"
+
+subscriptions:
+  - event: registry.updated
+    source: META-ORGANVM
+    action: Re-validate registry against governance rules
