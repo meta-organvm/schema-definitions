@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/workspace-manifest-v1.schema.json",
+  "title": "Workspace Manifest v1",
+  "description": "Schema for workspace-manifest.yaml — declares which organs are present in a partial checkout for collaborator workspaces.",
+  "type": "object",
+  "required": ["organs_present"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "workspace_name": {
+      "type": "string",
+      "description": "Human-readable name for this workspace"
+    },
+    "operator": {
+      "type": "string",
+      "description": "Handle of the primary operator of this workspace"
+    },
+    "organs_present": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "CLI short key for an organ (I, II, III, IV, V, VI, VII, META)"
+      },
+      "minItems": 1,
+      "description": "Which organs are checked out in this workspace"
+    },
+    "partial": {
+      "type": "boolean",
+      "description": "Whether this is a partial checkout (true) or full workspace (false)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this workspace configuration"
+    }
+  }
+}

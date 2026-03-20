@@ -44,6 +44,7 @@ SCHEMA_MAP = {
     "ontologia-event": "ontologia-event.schema.json",
     "organ-definitions": "organ-definitions.schema.json",
     "excavation-report": "excavation-report.schema.json",
+    "workspace-manifest": "workspace-manifest-v1.schema.json",
 }
 
 
