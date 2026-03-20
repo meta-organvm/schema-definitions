@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/organ-definitions.schema.json",
+  "title": "Organ Definitions",
+  "description": "Schema for organ-definitions.json — machine-readable organ identity definitions with domain boundaries, inclusion/exclusion criteria, and boundary tests.",
+  "type": "object",
+  "required": ["schema_version", "organs"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Schema version for organ definitions"
+    },
+    "description": {
+      "type": "string"
+    },
+    "organs": {
+      "type": "object",
+      "patternProperties": {
+        "^(ORGAN-[IVX]+|META-ORGANVM)$": { "$ref": "#/$defs/organ_definition" }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    }
+  },
+  "$defs": {
+    "organ_definition": {
+      "type": "object",
+      "required": [
+        "name",
+        "domain_boundary",
+        "inclusion_criteria",
+        "exclusion_criteria",
+        "canonical_repo_types",
+        "boundary_tests"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable organ name (e.g., Theoria, Poiesis)"
+        },
+        "domain_boundary": {
+          "type": "string",
+          "description": "Prose description of this organ's epistemic domain",
+          "minLength": 20
+        },
+        "inclusion_criteria": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 3,
+          "description": "Criteria that a repo must satisfy to belong in this organ"
+        },
+        "exclusion_criteria": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/exclusion_criterion" },
+          "minItems": 2,
+          "description": "Criteria that disqualify a repo from this organ, with redirect targets"
+        },
+        "canonical_repo_types": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 2,
+          "description": "Expected repo type vocabulary for this organ"
+        },
+        "boundary_tests": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/boundary_test" },
+          "minItems": 2,
+          "description": "Yes/no questions to test organ membership"
+        },
+        "sibling_organs": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Guidance for distinguishing this organ from related ones"
+        }
+      },
+      "additionalProperties": false
+    },
+    "exclusion_criterion": {
+      "type": "object",
+      "required": ["condition", "redirect"],
+      "properties": {
+        "condition": {
+          "type": "string",
+          "description": "The condition that triggers exclusion"
+        },
+        "redirect": {
+          "type": "string",
+          "description": "Which organ(s) the repo should belong to instead"
+        }
+      },
+      "additionalProperties": false
+    },
+    "boundary_test": {
+      "type": "object",
+      "required": ["question", "expected"],
+      "properties": {
+        "question": {
+          "type": "string",
+          "description": "A yes/no question about the repo"
+        },
+        "expected": {
+          "type": "boolean",
+          "description": "Expected answer for repos that belong in this organ"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

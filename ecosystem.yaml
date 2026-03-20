@@ -1,9 +1,23 @@
 schema_version: '1.0'
 repo: schema-definitions
 organ: META
-display_name: "Canonical JSON Schema definitions for all eight-organ system data contracts\
-  \ \u2014 registry, seed.yaml, governance rules, dispatch payloads, soak tests, and\
-  \ system metrics."
+display_name: "Canonical JSON Schemas for all system data contracts — 7 schemas"
+
 delivery:
-- platform: web_app
+- platform: python_library
+  status: live
+  priority: critical
+  notes: "7 JSON Schemas: registry, seed, governance, dispatch, soak, metrics, organism"
+  next_action: "Add ecosystem.yaml schema definition"
+- platform: cli_tool
+  status: live
+  priority: high
+  notes: "organvm-validate CLI for schema validation"
+  next_action: "Maintain as new schemas are added"
+
+content:
+- platform: docs_site
   status: not_started
+  priority: medium
+  notes: "Schema reference with examples and migration guides"
+  next_action: "Generate schema documentation from JSON Schema descriptions"

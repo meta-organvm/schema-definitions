@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/excavation-report.schema.json",
+  "title": "Excavation Report",
+  "description": "Schema for excavation reports — structured output of the buried entity scanner.",
+  "type": "object",
+  "required": ["scanned_repos", "total_findings", "findings"],
+  "properties": {
+    "scanned_repos": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "total_findings": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/buried_entity" }
+    },
+    "by_type": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    },
+    "by_severity": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    },
+    "cross_organ_families": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/family_summary" }
+    }
+  },
+  "$defs": {
+    "buried_entity": {
+      "type": "object",
+      "required": ["repo", "organ", "entity_path", "entity_type", "severity"],
+      "properties": {
+        "repo": { "type": "string" },
+        "organ": {
+          "type": "string",
+          "pattern": "^(ORGAN-[IVX]+|META-ORGANVM)$"
+        },
+        "entity_path": { "type": "string" },
+        "entity_type": {
+          "type": "string",
+          "enum": ["sub_package", "cross_organ_family", "extractable_module", "misplaced_governance"]
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scale": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "warning", "critical"]
+        },
+        "recommendation": { "type": "string" }
+      }
+    },
+    "family_summary": {
+      "type": "object",
+      "required": ["stem", "members"],
+      "properties": {
+        "stem": { "type": "string" },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["repo", "organ"],
+            "properties": {
+              "repo": { "type": "string" },
+              "organ": { "type": "string" }
+            }
+          }
+        },
+        "organ_count": { "type": "integer" }
+      }
+    }
+  }
+}

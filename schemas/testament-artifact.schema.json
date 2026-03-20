@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/testament-artifact.schema.json",
+  "title": "Testament Artifact",
+  "description": "Schema for testament artifacts — generative self-portrait outputs produced by the system's operational algorithms. Each artifact represents the system rendering its own density into experience through a specific modality.",
+  "type": "object",
+  "required": ["id", "modality", "format", "source_module", "title", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique artifact identifier (uuid4 hex prefix, 12 chars)",
+      "pattern": "^[a-f0-9]{12}$"
+    },
+    "modality": {
+      "type": "string",
+      "description": "Output modality — the medium through which the system renders itself",
+      "enum": [
+        "visual",
+        "statistical",
+        "schematic",
+        "mathematical",
+        "theoretical",
+        "academic",
+        "social",
+        "philosophical",
+        "sonic",
+        "archival"
+      ]
+    },
+    "format": {
+      "type": "string",
+      "description": "File format of the produced artifact",
+      "enum": ["svg", "html", "markdown", "json", "latex", "txt", "png"]
+    },
+    "source_module": {
+      "type": "string",
+      "description": "Engine module whose computation generated this artifact",
+      "examples": ["registry", "governance", "metrics", "omega", "seed", "ontologia", "ecosystem", "session"]
+    },
+    "organ": {
+      "type": ["string", "null"],
+      "description": "Organ scope of this artifact, or null for system-wide artifacts",
+      "examples": ["I", "II", "III", "IV", "V", "VI", "VII", "META"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable title of the artifact"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what this artifact renders",
+      "default": ""
+    },
+    "path": {
+      "type": "string",
+      "description": "Filesystem path where the artifact was written"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the artifact was produced"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata specific to the artifact type",
+      "properties": {
+        "palette_source": {
+          "type": "string",
+          "description": "Which aesthetic profile governed the rendering"
+        },
+        "data_snapshot": {
+          "type": "string",
+          "description": "Hash or identifier of the source data at render time"
+        },
+        "renderer": {
+          "type": "string",
+          "description": "Renderer function that produced this artifact"
+        },
+        "spec_trace": {
+          "type": "string",
+          "description": "Constitutional spec this artifact traces to",
+          "examples": ["INST-GENERATIVE-TESTAMENT"]
+        }
+      },
+      "additionalProperties": true,
+      "default": {}
+    }
+  },
+  "additionalProperties": false
+}

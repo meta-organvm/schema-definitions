@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "organs": {
+    "ORGAN-I": {
+      "name": "Theoria",
+      "domain_boundary": "Foundational theory, recursive engines, symbolic computing.",
+      "inclusion_criteria": [
+        "Produces conceptual frameworks consumed by other organs",
+        "No direct user-facing interface",
+        "Primary output is knowledge structures"
+      ],
+      "exclusion_criteria": [
+        {"condition": "Has a user-facing interface", "redirect": "ORGAN-II or ORGAN-III"},
+        {"condition": "Generates revenue", "redirect": "ORGAN-III"}
+      ],
+      "canonical_repo_types": ["engine", "framework", "theory"],
+      "boundary_tests": [
+        {"question": "Does it produce a conceptual framework?", "expected": true},
+        {"question": "Does it have end-users?", "expected": false}
+      ],
+      "sibling_organs": {
+        "ORGAN-II": "Art derivatives belong in II"
+      }
+    }
+  }
+}

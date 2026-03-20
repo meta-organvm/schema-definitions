@@ -1,0 +1,66 @@
+{
+  "scanned_repos": 97,
+  "total_findings": 4,
+  "findings": [
+    {
+      "repo": "tool-interaction-design",
+      "organ": "ORGAN-IV",
+      "entity_path": "conductor",
+      "entity_type": "sub_package",
+      "evidence": ["Found pyproject.toml at conductor/pyproject.toml"],
+      "scale": {},
+      "severity": "warning",
+      "recommendation": "Consider extracting 'conductor' as an independent repo"
+    },
+    {
+      "repo": "styx-behavioral-analysis",
+      "organ": "ORGAN-I",
+      "entity_path": "(repo-level)",
+      "entity_type": "cross_organ_family",
+      "evidence": ["Name stem 'styx-behavioral' appears in 2 organs"],
+      "scale": {},
+      "severity": "info",
+      "recommendation": "Cross-organ family may need a unifying governance entity"
+    },
+    {
+      "repo": "organvm-engine",
+      "organ": "META-ORGANVM",
+      "entity_path": "src/organvm_engine/session",
+      "entity_type": "extractable_module",
+      "evidence": ["14 Python files, 3200 lines"],
+      "scale": {"files": 14, "lines": 3200},
+      "severity": "warning",
+      "recommendation": "Module 'session' has 14 files / 3200 lines — consider extraction"
+    },
+    {
+      "repo": "commerce--meta",
+      "organ": "ORGAN-III",
+      "entity_path": "governance",
+      "entity_type": "misplaced_governance",
+      "evidence": ["Directory 'governance/' with 3 files"],
+      "scale": {"files": 3},
+      "severity": "warning",
+      "recommendation": "Governance artifacts should be in praxis-perpetua"
+    }
+  ],
+  "by_type": {
+    "sub_package": 1,
+    "cross_organ_family": 1,
+    "extractable_module": 1,
+    "misplaced_governance": 1
+  },
+  "by_severity": {
+    "warning": 3,
+    "info": 1
+  },
+  "cross_organ_families": [
+    {
+      "stem": "styx-behavioral",
+      "members": [
+        {"repo": "styx-behavioral-analysis", "organ": "ORGAN-I"},
+        {"repo": "styx-behavioral-art", "organ": "ORGAN-II"}
+      ],
+      "organ_count": 2
+    }
+  ]
+}

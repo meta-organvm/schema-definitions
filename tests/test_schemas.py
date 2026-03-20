@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 
 import jsonschema
-import pytest
 import yaml
 
 SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "schemas"
@@ -332,6 +331,87 @@ class TestAmmoiSchema:
                     "bogus_field": 99,
                 }
             },
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+
+class TestOrganDefinitionsSchema:
+    def test_example_validates(self):
+        schema = load_schema("organ-definitions.schema.json")
+        with open(EXAMPLES_DIR / "organ-definitions-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_organs_fails(self):
+        schema = load_schema("organ-definitions.schema.json")
+        data = {"schema_version": "1.0"}
+        errors = validate(data, schema)
+        assert any("organs" in e for e in errors)
+
+    def test_invalid_organ_key_fails(self):
+        schema = load_schema("organ-definitions.schema.json")
+        data = {
+            "schema_version": "1.0",
+            "organs": {
+                "BAD-KEY": {
+                    "name": "Bad",
+                    "domain_boundary": "x" * 25,
+                    "inclusion_criteria": ["a", "b", "c"],
+                    "exclusion_criteria": [
+                        {"condition": "x", "redirect": "y"},
+                        {"condition": "z", "redirect": "w"},
+                    ],
+                    "canonical_repo_types": ["a", "b"],
+                    "boundary_tests": [
+                        {"question": "q?", "expected": True},
+                        {"question": "r?", "expected": False},
+                    ],
+                }
+            },
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+    def test_missing_required_organ_fields_fails(self):
+        schema = load_schema("organ-definitions.schema.json")
+        data = {
+            "schema_version": "1.0",
+            "organs": {
+                "ORGAN-I": {"name": "Theory"},
+            },
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+
+class TestExcavationReportSchema:
+    def test_example_validates(self):
+        schema = load_schema("excavation-report.schema.json")
+        with open(EXAMPLES_DIR / "excavation-report-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_findings_fails(self):
+        schema = load_schema("excavation-report.schema.json")
+        data = {"scanned_repos": 10, "total_findings": 0}
+        errors = validate(data, schema)
+        assert any("findings" in e for e in errors)
+
+    def test_invalid_entity_type_fails(self):
+        schema = load_schema("excavation-report.schema.json")
+        data = {
+            "scanned_repos": 1,
+            "total_findings": 1,
+            "findings": [
+                {
+                    "repo": "test",
+                    "organ": "ORGAN-I",
+                    "entity_path": "x",
+                    "entity_type": "invalid_type",
+                    "severity": "warning",
+                },
+            ],
         }
         errors = validate(data, schema)
         assert len(errors) > 0
