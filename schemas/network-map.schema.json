@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://organvm.dev/schemas/network-map.schema.json",
+  "title": "ORGANVM Network Map",
+  "description": "Per-repo external mirror mapping — the third contract alongside seed.yaml and ecosystem.yaml. Maps ORGANVM repos to relevant open-source projects, communities, and philosophical kinship networks through three equal lenses.",
+  "type": "object",
+  "required": ["schema_version", "repo", "organ", "mirrors"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version identifier"
+    },
+    "repo": {
+      "type": "string",
+      "description": "ORGANVM repository name"
+    },
+    "organ": {
+      "type": "string",
+      "description": "ORGANVM organ membership"
+    },
+    "mirrors": {
+      "type": "object",
+      "description": "External mirrors organized by lens",
+      "properties": {
+        "technical": {
+          "type": "array",
+          "description": "Projects whose code runs inside this repo — dependencies, tools, frameworks",
+          "items": { "$ref": "#/$defs/mirror_entry" }
+        },
+        "parallel": {
+          "type": "array",
+          "description": "Projects solving similar problems in different ways",
+          "items": { "$ref": "#/$defs/mirror_entry" }
+        },
+        "kinship": {
+          "type": "array",
+          "description": "Communities and projects aligned in values, not necessarily technology",
+          "items": { "$ref": "#/$defs/mirror_entry" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ledger": {
+      "type": "string",
+      "description": "Path to the engagement ledger JSONL file",
+      "default": "~/.organvm/network/ledger.jsonl"
+    },
+    "last_scanned": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last automated scan"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "mirror_entry": {
+      "type": "object",
+      "required": ["project", "platform", "relevance"],
+      "properties": {
+        "project": {
+          "type": "string",
+          "description": "Project identifier (e.g., 'astral-sh/ruff' for GitHub, 'indieweb' for communities)"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Where this project lives",
+          "enum": ["github", "gitlab", "community", "forum", "mailing-list", "discord", "slack", "mastodon", "website", "academic", "other"]
+        },
+        "relevance": {
+          "type": "string",
+          "description": "Why this mirror exists — the connection to this ORGANVM repo"
+        },
+        "engagement": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["watch", "presence", "issues", "contributions", "discussions", "dialogue", "invitation"]
+          },
+          "description": "Active engagement forms with this project"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Explicit URL if not derivable from project+platform"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Freeform tags for pattern discovery"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional context about this mirror connection"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
