@@ -1,0 +1,75 @@
+{
+  "contract_name": "conversation-corpus-engine-mcp-context-v1",
+  "contract_version": 1,
+  "generated_at": "2026-03-21T12:00:00Z",
+  "project_root": "/tmp/conversation-corpus-engine",
+  "source_drop_root": "/tmp/source-drop",
+  "summary": {
+    "registered_corpus_count": 1,
+    "active_corpus_count": 1,
+    "provider_count": 1,
+    "healthy_provider_count": 1,
+    "refresh_recommended_count": 0,
+    "open_review_count": 0
+  },
+  "registry": {
+    "default_corpus_id": "claude-main",
+    "corpora": [
+      {
+        "corpus_id": "claude-main",
+        "root": "/tmp/conversation-corpus-engine/corpora/claude-main"
+      }
+    ]
+  },
+  "providers": [
+    {
+      "provider": "claude",
+      "display_name": "Claude",
+      "overall_state": "healthy-federation",
+      "next_command": "cce provider refresh --provider claude --project-root /tmp/conversation-corpus-engine",
+      "selected_target": {
+        "corpus_id": "claude-main",
+        "root": "/tmp/conversation-corpus-engine/corpora/claude-main"
+      },
+      "targets": [],
+      "policy": {
+        "selected_root": "/tmp/conversation-corpus-engine/corpora/claude-main"
+      },
+      "discovery": {
+        "mode": "inbox"
+      }
+    }
+  ],
+  "governance": {
+    "promotion_policy": {
+      "version": 1
+    },
+    "latest_policy_replay": null,
+    "latest_policy_candidate": null,
+    "latest_policy_application": null,
+    "latest_corpus_candidate": null,
+    "latest_corpus_promotion": null
+  },
+  "latest_events": {
+    "latest_corpus_live_pointer": {
+      "corpus_id": "claude-main"
+    },
+    "latest_policy_live_pointer": null,
+    "latest_provider_refreshes": {
+      "claude": {
+        "refreshed_at": "2026-03-21T12:00:00Z"
+      }
+    }
+  },
+  "review_queue": {
+    "open_count": 0,
+    "items": []
+  },
+  "schema_catalog": [
+    {
+      "name": "mcp-context",
+      "description": "Conversation corpus engine MCP surface.",
+      "path": "src/conversation_corpus_engine/schemas/mcp-context.schema.json"
+    }
+  ]
+}

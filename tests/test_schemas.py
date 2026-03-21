@@ -265,6 +265,124 @@ class TestPulseEventSchema:
         errors = validate(data, schema)
         assert len(errors) > 0
 
+
+class TestConversationCorpusSurfaceManifestSchema:
+    def test_example_validates(self):
+        schema = load_schema("conversation-corpus-surface-manifest.schema.json")
+        with open(EXAMPLES_DIR / "conversation-corpus-surface-manifest-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_registry_fails(self):
+        schema = load_schema("conversation-corpus-surface-manifest.schema.json")
+        data = {
+            "contract_name": "conversation-corpus-engine-surface-manifest-v1",
+            "contract_version": 1,
+            "generated_at": "2026-03-21T12:00:00Z",
+            "engine": {
+                "package": "conversation-corpus-engine",
+                "version": "0.1.0",
+                "repo_root": "/tmp/cce",
+            },
+            "project": {
+                "project_root": "/tmp/cce",
+                "source_drop_root": "/tmp/source-drop",
+                "organ": "ORGAN-I",
+                "system_role": "conversation-corpus-engine",
+            },
+            "schemas": [],
+            "cli_surfaces": [],
+            "providers": [],
+            "artifacts": {
+                "registry_path": "/tmp/cce/state/corpus-registry.json",
+                "promotion_policy_path": "/tmp/cce/state/promotion-policy.json",
+                "federation_summary_path": "/tmp/cce/federation/federation-summary.md",
+                "policy_replay_latest_json_path": "/tmp/cce/state/policy-replay-latest.json",
+                "policy_candidate_latest_json_path": "/tmp/cce/state/policy-candidate-latest.json",
+                "policy_application_latest_json_path": "/tmp/cce/state/policy-application-latest.json",
+                "corpus_candidate_latest_json_path": "/tmp/cce/state/corpus-candidate-latest.json",
+                "corpus_promotion_latest_json_path": "/tmp/cce/state/corpus-promotion-latest.json",
+                "corpus_live_pointer_path": "/tmp/cce/state/corpus-live-pointer.json",
+                "source_policy_paths": {},
+                "provider_refresh_latest_json_paths": {},
+            },
+        }
+        errors = validate(data, schema)
+        assert any("registry" in e for e in errors)
+
+
+class TestConversationCorpusMcpContextSchema:
+    def test_example_validates(self):
+        schema = load_schema("conversation-corpus-mcp-context.schema.json")
+        with open(EXAMPLES_DIR / "conversation-corpus-mcp-context-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_summary_field_fails(self):
+        schema = load_schema("conversation-corpus-mcp-context.schema.json")
+        data = {
+            "contract_name": "conversation-corpus-engine-mcp-context-v1",
+            "contract_version": 1,
+            "generated_at": "2026-03-21T12:00:00Z",
+            "project_root": "/tmp/cce",
+            "source_drop_root": "/tmp/source-drop",
+            "summary": {
+                "registered_corpus_count": 1,
+                "active_corpus_count": 1,
+                "provider_count": 1,
+                "healthy_provider_count": 1,
+                "refresh_recommended_count": 0,
+            },
+            "registry": {"default_corpus_id": None, "corpora": []},
+            "providers": [],
+            "governance": {
+                "promotion_policy": {},
+                "latest_policy_replay": None,
+                "latest_policy_candidate": None,
+                "latest_policy_application": None,
+                "latest_corpus_candidate": None,
+                "latest_corpus_promotion": None,
+            },
+            "latest_events": {
+                "latest_corpus_live_pointer": None,
+                "latest_policy_live_pointer": None,
+                "latest_provider_refreshes": {},
+            },
+            "review_queue": {"open_count": 0, "items": []},
+            "schema_catalog": [],
+        }
+        errors = validate(data, schema)
+        assert any("open_review_count" in e for e in errors)
+
+
+class TestConversationCorpusSurfaceBundleSchema:
+    def test_example_validates(self):
+        schema = load_schema("conversation-corpus-surface-bundle.schema.json")
+        with open(EXAMPLES_DIR / "conversation-corpus-surface-bundle-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_context_fails(self):
+        schema = load_schema("conversation-corpus-surface-bundle.schema.json")
+        data = {
+            "contract_name": "conversation-corpus-engine-surface-bundle-v1",
+            "contract_version": 1,
+            "generated_at": "2026-03-21T12:00:00Z",
+            "project_root": "/tmp/cce",
+            "source_drop_root": "/tmp/source-drop",
+            "summary": {"valid": True, "error_count": 0},
+            "manifest": {
+                "schema_name": "surface-manifest",
+                "path": "/tmp/cce/reports/surfaces/surface-manifest.json",
+                "markdown_path": "/tmp/cce/reports/surfaces/surface-manifest.md",
+                "valid": True,
+                "error_count": 0,
+                "errors": [],
+            },
+        }
+        errors = validate(data, schema)
+        assert any("context" in e for e in errors)
+
     def test_missing_source_fails(self):
         schema = load_schema("pulse-event.schema.json")
         data = {

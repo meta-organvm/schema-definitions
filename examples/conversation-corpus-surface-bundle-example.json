@@ -1,0 +1,33 @@
+{
+  "contract_name": "conversation-corpus-engine-surface-bundle-v1",
+  "contract_version": 1,
+  "generated_at": "2026-03-21T12:00:00Z",
+  "project_root": "/tmp/conversation-corpus-engine",
+  "source_drop_root": "/tmp/source-drop",
+  "summary": {
+    "valid": true,
+    "error_count": 0
+  },
+  "manifest": {
+    "schema_name": "surface-manifest",
+    "path": "/tmp/conversation-corpus-engine/reports/surfaces/surface-manifest.json",
+    "markdown_path": "/tmp/conversation-corpus-engine/reports/surfaces/surface-manifest.md",
+    "valid": true,
+    "error_count": 0,
+    "errors": []
+  },
+  "context": {
+    "schema_name": "mcp-context",
+    "path": "/tmp/conversation-corpus-engine/reports/surfaces/mcp-context.json",
+    "markdown_path": "/tmp/conversation-corpus-engine/reports/surfaces/mcp-context.md",
+    "valid": true,
+    "error_count": 0,
+    "errors": []
+  },
+  "bundle_validation": {
+    "schema": "surface-bundle",
+    "valid": true,
+    "error_count": 0,
+    "errors": []
+  }
+}

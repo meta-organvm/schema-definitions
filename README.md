@@ -12,6 +12,9 @@ Canonical JSON Schema definitions for the organvm eight-organ system's data cont
 | `dispatch-payload.schema.json` | Cross-org dispatch events | ORGAN-IV routing payloads |
 | `soak-test.schema.json` | `daily-*.json` | VIGILIA soak test snapshots |
 | `system-metrics.schema.json` | `system-metrics.json` | Computed + manual system metrics |
+| `conversation-corpus-surface-manifest.schema.json` | `conversation-corpus-surface-manifest-*.json` | Exported CCE engine surface manifest |
+| `conversation-corpus-mcp-context.schema.json` | `conversation-corpus-mcp-context-*.json` | Exported CCE MCP-facing context payload |
+| `conversation-corpus-surface-bundle.schema.json` | `conversation-corpus-surface-bundle-*.json` | Exported CCE validation bundle |
 
 ## Usage
 

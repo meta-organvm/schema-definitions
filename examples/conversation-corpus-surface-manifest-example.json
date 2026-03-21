@@ -1,0 +1,87 @@
+{
+  "contract_name": "conversation-corpus-engine-surface-manifest-v1",
+  "contract_version": 1,
+  "generated_at": "2026-03-21T12:00:00Z",
+  "engine": {
+    "package": "conversation-corpus-engine",
+    "version": "0.1.0",
+    "repo_root": "/Users/4jp/Workspace/organvm-i-theoria/conversation-corpus-engine"
+  },
+  "project": {
+    "project_root": "/tmp/conversation-corpus-engine",
+    "source_drop_root": "/tmp/source-drop",
+    "organ": "ORGAN-I",
+    "system_role": "conversation-corpus-engine"
+  },
+  "schemas": [
+    {
+      "name": "surface-manifest",
+      "description": "External surface manifest contract.",
+      "path": "src/conversation_corpus_engine/schemas/surface-manifest.schema.json"
+    }
+  ],
+  "cli_surfaces": [
+    {
+      "command": "cce surface bundle --project-root /tmp/conversation-corpus-engine",
+      "purpose": "Export outward engine and MCP surfaces.",
+      "audience": "meta"
+    }
+  ],
+  "registry": {
+    "registry_version": 1,
+    "corpus_count": 1,
+    "active_corpus_count": 1,
+    "default_corpus_id": "claude-main",
+    "corpora": [
+      {
+        "corpus_id": "claude-main",
+        "name": "Claude Main",
+        "root": "/tmp/conversation-corpus-engine/corpora/claude-main",
+        "status": "active",
+        "default": true,
+        "valid_contract": true,
+        "evaluation_overall_state": "pass",
+        "source_freshness_state": "fresh"
+      }
+    ]
+  },
+  "providers": [
+    {
+      "provider": "claude",
+      "display_name": "Claude",
+      "adapter_type": "markdown-document",
+      "discovery_mode": "inbox",
+      "calibration_only": false,
+      "selected_targets": [
+        {
+          "role": "selected",
+          "corpus_id": "claude-main",
+          "root": "/tmp/conversation-corpus-engine/corpora/claude-main",
+          "selected": true
+        }
+      ],
+      "source_policy": {
+        "selected_root": "/tmp/conversation-corpus-engine/corpora/claude-main"
+      },
+      "readiness_status": "healthy-federation",
+      "next_command": "cce provider refresh --provider claude --project-root /tmp/conversation-corpus-engine"
+    }
+  ],
+  "artifacts": {
+    "registry_path": "/tmp/conversation-corpus-engine/state/corpus-registry.json",
+    "promotion_policy_path": "/tmp/conversation-corpus-engine/state/promotion-policy.json",
+    "federation_summary_path": "/tmp/conversation-corpus-engine/federation/federation-summary.md",
+    "policy_replay_latest_json_path": "/tmp/conversation-corpus-engine/state/policy-replay-latest.json",
+    "policy_candidate_latest_json_path": "/tmp/conversation-corpus-engine/state/policy-candidate-latest.json",
+    "policy_application_latest_json_path": "/tmp/conversation-corpus-engine/state/policy-application-latest.json",
+    "corpus_candidate_latest_json_path": "/tmp/conversation-corpus-engine/state/corpus-candidate-latest.json",
+    "corpus_promotion_latest_json_path": "/tmp/conversation-corpus-engine/state/corpus-promotion-latest.json",
+    "corpus_live_pointer_path": "/tmp/conversation-corpus-engine/state/corpus-live-pointer.json",
+    "source_policy_paths": {
+      "claude": "/tmp/conversation-corpus-engine/state/source-policy/claude.json"
+    },
+    "provider_refresh_latest_json_paths": {
+      "claude": "/tmp/conversation-corpus-engine/state/provider-refresh/claude-latest.json"
+    }
+  }
+}
