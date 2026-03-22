@@ -14,7 +14,7 @@
     "schema_version": {
       "type": "string",
       "description": "Schema version within the 2.x line",
-      "enum": ["1.0.0", "1.0.1", "1.1.0"]
+      "enum": ["1", "1.0.0", "1.0.1", "1.1.0", "1.2.0"]
     },
     "schema_note": { "type": "string" },
     "deployment_model": { "type": "string" },
@@ -140,6 +140,21 @@
         "revenue_status": {
           "type": "string",
           "enum": ["pre-launch", "beta", "live", "deprecated", "n/a"]
+        },
+        "functional_class": {
+          "type": "string",
+          "description": "Primary functional classification from the 10-class constitutional taxonomy",
+          "enum": ["CHARTER", "CORPUS", "FRAMEWORK", "ENGINE", "APPLICATION", "INFRASTRUCTURE", "ASSURANCE", "ARCHIVE", "EXPERIMENT", "OPERATIONS"]
+        },
+        "functional_class_secondary": {
+          "type": "string",
+          "description": "Secondary functional classification for boundary objects spanning two classes",
+          "enum": ["CHARTER", "CORPUS", "FRAMEWORK", "ENGINE", "APPLICATION", "INFRASTRUCTURE", "ASSURANCE", "ARCHIVE", "EXPERIMENT", "OPERATIONS"]
+        },
+        "formation_type": {
+          "type": "string",
+          "description": "Formation protocol type from the 7-type signal topology",
+          "enum": ["GENERATOR", "TRANSFORMER", "ROUTER", "RESERVOIR", "INTERFACE", "LABORATORY", "SYNTHESIZER"]
         }
       }
     },
