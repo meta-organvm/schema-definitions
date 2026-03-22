@@ -44,7 +44,27 @@
       "items": { "$ref": "#/$defs/subscription" }
     },
     "ownership": { "$ref": "#/$defs/ownership" },
-    "review": { "$ref": "#/$defs/review" }
+    "review": { "$ref": "#/$defs/review" },
+    "formation_type": {
+      "type": "string",
+      "enum": ["GENERATOR", "TRANSFORMER", "ROUTER", "RESERVOIR", "INTERFACE", "LABORATORY", "SYNTHESIZER"],
+      "description": "Formation type per Formation Protocol §5"
+    },
+    "functional_class": {
+      "type": "string",
+      "enum": ["CHARTER", "CORPUS", "FRAMEWORK", "ENGINE", "APPLICATION", "INFRASTRUCTURE", "ASSURANCE", "ARCHIVE", "EXPERIMENT", "OPERATIONS"],
+      "description": "Primary functional class per 10-class taxonomy"
+    },
+    "signal_inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Signal classes this formation consumes (Formation Protocol §8.1)"
+    },
+    "signal_outputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Signal classes this formation emits (Formation Protocol §8.1)"
+    }
   },
   "$defs": {
     "metadata": {
