@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/signal-signature.schema.json",
+  "title": "Signal Signature",
+  "description": "Schema for a formation's signal type signature — the Greek-letter variable encoding of its input/output signal classes. Used by signal algebra to determine composability: two formations f and g are composable iff output(g) ∩ input(f) ≠ ∅.",
+  "type": "object",
+  "required": ["formation_name", "signal_signature", "participates_in"],
+  "properties": {
+    "formation_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the formation this signature describes"
+    },
+    "signal_signature": {
+      "type": "object",
+      "required": ["inputs", "outputs"],
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Σ", "Π", "Θ", "Ω", "Ψ", "Φ", "Λ", "Δ", "Ε", "Μ", "Α", "Ι", "Ξ", "Ρ"]
+          },
+          "description": "Greek-letter variables for signal classes this formation consumes"
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Σ", "Π", "Θ", "Ω", "Ψ", "Φ", "Λ", "Δ", "Ε", "Μ", "Α", "Ι", "Ξ", "Ρ"]
+          },
+          "description": "Greek-letter variables for signal classes this formation produces"
+        }
+      },
+      "additionalProperties": false
+    },
+    "participates_in": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "description": "Primary named function this formation participates in (e.g., theoria, poiesis)"
+        },
+        "secondary": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Additional named functions this formation participates in"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
