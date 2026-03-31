@@ -64,6 +64,11 @@
       "type": "array",
       "items": { "type": "string" },
       "description": "Signal classes this formation emits (Formation Protocol §8.1)"
+    },
+    "breathing": {
+      "type": "array",
+      "description": "Files that are perpetually dirty by design — mutated by system-wide operations, not direct human intent (SVSE mutability: self-evolving).",
+      "items": { "$ref": "#/$defs/breathing_entry" }
     }
   },
   "$defs": {
@@ -219,6 +224,29 @@
           "type": "array",
           "items": { "type": "string" },
           "description": "List of conditions that must be met for this transition"
+        }
+      }
+    },
+    "breathing_entry": {
+      "type": "object",
+      "required": ["path", "cadence"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Relative path from repo root"
+        },
+        "cadence": {
+          "type": "string",
+          "enum": ["session-close", "batch", "ignore"],
+          "description": "session-close: auto-commit at end of session. batch: commit on demand. ignore: operator handles."
+        },
+        "source": {
+          "type": "string",
+          "description": "What makes it dirty (human-readable)"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why it breathes"
         }
       }
     }
