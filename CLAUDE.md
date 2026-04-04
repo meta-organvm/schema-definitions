@@ -66,7 +66,7 @@ It belongs to **ORGAN Meta (Meta)** under the `meta-organvm` GitHub organization
 ### Governance
 - *Standard ORGANVM governance applies*
 
-*Last synced: 2026-04-03T15:19:55Z*
+*Last synced: 2026-04-04T21:14:35Z*
 
 ## Session Review Protocol
 
@@ -80,6 +80,13 @@ Transcripts are on-demand (never committed):
 - `organvm session transcript <id>` — conversation summary
 - `organvm session transcript <id> --unabridged` — full audit trail
 - `organvm session prompts <id>` — human prompts only
+
+
+## System Library
+
+Plans: 269 indexed | Chains: 5 available | SOPs: 99 active
+Discover: `organvm plans search <query>` | `organvm chains list` | `organvm sop lifecycle`
+Library: `meta-organvm/praxis-perpetua/library/`
 
 
 ## Active Directives
@@ -173,9 +180,9 @@ Convergences: 20 | Run: `organvm network map --repo schema-definitions` | `organ
 
 ## System Density (auto-generated)
 
-AMMOI: 56% | Edges: 41 | Tensions: 0 | Clusters: 0 | Adv: 12 | Events(24h): 27428
+AMMOI: 56% | Edges: 41 | Tensions: 0 | Clusters: 0 | Adv: 13 | Events(24h): 28087
 Structure: 8 organs / 128 repos / 1654 components (depth 17) | Inference: 0% | Organs: META-ORGANVM:64%, ORGAN-I:55%, ORGAN-II:47%, ORGAN-III:55% +4 more
-Last pulse: 2026-04-03T15:19:54 | Δ24h: -0.0% | Δ7d: n/a
+Last pulse: 2026-04-04T21:14:26 | Δ24h: -0.1% | Δ7d: n/a
 
 
 ## Dialect Identity (Trivium)
@@ -207,6 +214,24 @@ Nature demands a documentation counterpart. This formation maintains its narrati
 *Compliance: Formation is currently void.*
 
 <!-- ORGANVM:AUTO:END -->
+
+## Active Handoff Protocol
+
+If `.conductor/active-handoff.md` exists, **READ IT FIRST** before doing any work.
+It contains constraints, locked files, conventions, and completed work from the
+originating agent. You MUST honor all constraints listed there.
+
+If the handoff says "CROSS-VERIFICATION REQUIRED", your self-assessment will
+NOT be trusted. A different agent will verify your output against these constraints.
+
+## Active Handoff Protocol
+
+If `.conductor/active-handoff.md` exists, **READ IT FIRST** before doing any work.
+It contains constraints, locked files, conventions, and completed work from the
+originating agent. You MUST honor all constraints listed there.
+
+If the handoff says "CROSS-VERIFICATION REQUIRED", your self-assessment will
+NOT be trusted. A different agent will verify your output against these constraints.
 
 ## Active Handoff Protocol
 
