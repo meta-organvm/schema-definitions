@@ -34,7 +34,7 @@
     "organs": {
       "type": "object",
       "patternProperties": {
-        "^(ORGAN-[IVX]+|META-ORGANVM)$": { "$ref": "#/$defs/organ" }
+        "^(ORGAN-[IVX]+|META-ORGANVM|SIGMA-E|ORGAN-PSG|PERSONAL)$": { "$ref": "#/$defs/organ" }
       },
       "additionalProperties": false
     }
