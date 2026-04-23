@@ -1,0 +1,58 @@
+{
+  "atomId": "ca_x9y8z7w6v5u4",
+  "atomFamily": "code",
+  "codeKind": "function",
+  "language": "python",
+  "runtime": "cpython",
+  "content": "def ingest_file(self, filepath: str) -> IntakeSource:\n    path = Path(filepath)\n    if not path.exists():\n        raise FileNotFoundError(f\"File not found: {filepath}\")\n    content = path.read_text(encoding=\"utf-8\")\n    atom_hash = hashlib.sha256(content.encode()).hexdigest()[:16]\n    return IntakeSource(id=f\"file_{atom_hash}\", source_type=\"file\", path=str(path), content=content, hash=atom_hash)",
+  "contentHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+  "sourceRef": "src_intake_module",
+  "sourceSpan": {
+    "filePath": "src/uaks/source_intake/__init__.py",
+    "startLine": 109,
+    "endLine": 139,
+    "startCol": null,
+    "endCol": null
+  },
+  "symbols": [
+    {
+      "name": "ingest_file",
+      "symbolType": "method",
+      "qualifiedName": "SourceIntake.ingest_file",
+      "signature": "(self, filepath: str) -> IntakeSource"
+    }
+  ],
+  "dependencies": [
+    {
+      "depType": "imports",
+      "targetRef": "ca_pathlib_path",
+      "targetSymbol": "Path"
+    },
+    {
+      "depType": "imports",
+      "targetRef": "ca_hashlib_sha256",
+      "targetSymbol": "hashlib.sha256"
+    }
+  ],
+  "sideEffectProfile": {
+    "purity": "read_only",
+    "externalSystems": ["filesystem"],
+    "breakingChangeRisk": "low"
+  },
+  "bridgeLinks": [
+    {
+      "bridgeType": "documented_by",
+      "targetRef": "ta_source_intake_docs"
+    }
+  ],
+  "validationState": "DISTILLED",
+  "provenance": {
+    "refineryVersion": "0.1.0",
+    "refineryStage": "symbol_extraction",
+    "transformedAt": "2026-04-23T15:00:00Z",
+    "parentAtomId": null,
+    "astParserVersion": "python-3.13"
+  },
+  "createdAt": "2026-04-23T15:00:00Z",
+  "updatedAt": null
+}

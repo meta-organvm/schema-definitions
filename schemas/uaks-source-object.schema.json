@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/uaks-source-object.schema.json",
+  "title": "UAKS Source Object",
+  "description": "Immutable registration metadata for raw sources entering the UAKS pipeline. Each source receives this schema before any refinement occurs. Derived from UAKS v1 Architecture Specification section 10.1.",
+  "type": "object",
+  "required": ["sourceId", "sourceType", "origin", "ingestedAt", "checksum", "mimeType", "rawArchiveRef"],
+  "properties": {
+    "sourceId": {
+      "type": "string",
+      "description": "Unique identifier for this source object. Content-addressed or ULID-based.",
+      "pattern": "^src_[a-zA-Z0-9_-]+$"
+    },
+    "sourceType": {
+      "type": "string",
+      "description": "Classification of source material family.",
+      "enum": ["raw_text", "conversational_text", "technical_source", "binary_artifact"]
+    },
+    "origin": {
+      "type": "string",
+      "description": "Human-readable origin descriptor. Filesystem path, URL, platform name, or manual label.",
+      "minLength": 1
+    },
+    "ingestedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when this source was registered in the system."
+    },
+    "checksum": {
+      "type": "string",
+      "description": "SHA-256 hash of the raw source content. Used for deduplication and integrity verification.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "mimeType": {
+      "type": "string",
+      "description": "MIME type of the source content.",
+      "examples": ["text/plain", "text/markdown", "application/json", "application/pdf", "text/x-python", "image/png"]
+    },
+    "authorRef": {
+      "type": ["string", "null"],
+      "description": "Optional reference to an entity ID representing the author or originator.",
+      "default": null
+    },
+    "rightsClass": {
+      "type": ["string", "null"],
+      "description": "Classification of rights or access constraints on this source.",
+      "enum": ["public", "internal", "confidential", "restricted", null],
+      "default": null
+    },
+    "rawArchiveRef": {
+      "type": "string",
+      "description": "Reference to the immutable copy in the raw source archive (CAS address or archive path).",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional source-specific metadata. Structure varies by sourceType.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

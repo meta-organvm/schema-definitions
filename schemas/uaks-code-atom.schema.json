@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/uaks-code-atom.schema.json",
+  "title": "UAKS CodeAtom",
+  "description": "Schema for code-domain atoms produced by the UAKS Code Refinery. A CodeAtom represents a meaningful unit of technical source with dependency links, symbol references, and side-effect profiles. Derived from UAKS v1 Architecture Specification sections 5, 11.2, and 16.",
+  "type": "object",
+  "required": ["atomId", "atomFamily", "codeKind", "content", "contentHash", "sourceRef", "validationState", "createdAt"],
+  "properties": {
+    "atomId": {
+      "type": "string",
+      "description": "Unique content-addressed identifier for this code atom.",
+      "pattern": "^ca_[a-zA-Z0-9_-]+$"
+    },
+    "atomFamily": {
+      "type": "string",
+      "const": "code",
+      "description": "Always 'code' for CodeAtom instances."
+    },
+    "codeKind": {
+      "type": "string",
+      "description": "Classification of the code atom by function.",
+      "enum": [
+        "function",
+        "class",
+        "module",
+        "config",
+        "query",
+        "schema",
+        "test",
+        "script",
+        "interface",
+        "type_definition",
+        "migration",
+        "workflow"
+      ]
+    },
+    "language": {
+      "type": "string",
+      "description": "Programming language of the code content.",
+      "examples": ["python", "typescript", "go", "rust", "sql", "yaml", "json", "shell"]
+    },
+    "runtime": {
+      "type": ["string", "null"],
+      "description": "Runtime environment if applicable.",
+      "examples": ["node", "cpython", "deno", "browser", null]
+    },
+    "content": {
+      "type": "string",
+      "description": "The code content of this atom.",
+      "minLength": 1
+    },
+    "contentHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the content field.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sourceRef": {
+      "type": "string",
+      "description": "Reference to the source object this atom was extracted from."
+    },
+    "sourceSpan": {
+      "type": "object",
+      "description": "Location within the source file.",
+      "properties": {
+        "filePath": { "type": "string" },
+        "startLine": { "type": "integer", "minimum": 1 },
+        "endLine": { "type": "integer", "minimum": 1 },
+        "startCol": { "type": ["integer", "null"] },
+        "endCol": { "type": ["integer", "null"] }
+      }
+    },
+    "symbols": {
+      "type": "array",
+      "description": "Symbols defined or exported by this code atom.",
+      "items": {
+        "type": "object",
+        "required": ["name", "symbolType"],
+        "properties": {
+          "name": { "type": "string" },
+          "symbolType": {
+            "type": "string",
+            "enum": ["function", "class", "variable", "constant", "type", "interface", "module", "method"]
+          },
+          "qualifiedName": { "type": ["string", "null"] },
+          "signature": { "type": ["string", "null"] }
+        }
+      },
+      "default": []
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Import, call, and dataflow dependencies.",
+      "items": {
+        "type": "object",
+        "required": ["depType", "targetRef"],
+        "properties": {
+          "depType": {
+            "type": "string",
+            "enum": ["imports", "calls", "extends", "implements", "reads", "writes", "configures"]
+          },
+          "targetRef": { "type": "string" },
+          "targetSymbol": { "type": ["string", "null"] }
+        }
+      },
+      "default": []
+    },
+    "sideEffectProfile": {
+      "type": "object",
+      "description": "Characterization of the atom's side effects.",
+      "properties": {
+        "purity": {
+          "type": "string",
+          "enum": ["pure", "read_only", "write", "io", "network", "unknown"]
+        },
+        "externalSystems": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "External systems this code interacts with."
+        },
+        "breakingChangeRisk": {
+          "type": "string",
+          "enum": ["none", "low", "medium", "high", "critical"]
+        }
+      }
+    },
+    "bridgeLinks": {
+      "type": "array",
+      "description": "Links connecting this code atom to documentation, tests, rules, or interfaces.",
+      "items": {
+        "type": "object",
+        "required": ["bridgeType", "targetRef"],
+        "properties": {
+          "bridgeType": {
+            "type": "string",
+            "enum": ["tested_by", "documented_by", "implements_rule", "exposes_interface", "consumes_interface"]
+          },
+          "targetRef": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "validationState": {
+      "type": "string",
+      "description": "Current governance state of this atom.",
+      "enum": ["DRAFT", "DISTILLED", "REVIEWED", "VERIFIED", "DEPRECATED", "DISPUTED"]
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Transformation lineage for this atom.",
+      "properties": {
+        "refineryVersion": { "type": "string" },
+        "refineryStage": { "type": "string" },
+        "transformedAt": { "type": "string", "format": "date-time" },
+        "parentAtomId": { "type": ["string", "null"] },
+        "astParserVersion": { "type": ["string", "null"] }
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of atom creation."
+    },
+    "updatedAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last metadata update."
+    }
+  },
+  "additionalProperties": false
+}

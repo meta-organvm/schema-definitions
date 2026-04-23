@@ -535,6 +535,141 @@ class TestExcavationReportSchema:
         assert len(errors) > 0
 
 
+class TestUaksSourceObjectSchema:
+    def test_example_validates(self):
+        schema = load_schema("uaks-source-object.schema.json")
+        with open(EXAMPLES_DIR / "uaks-source-object-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_checksum_fails(self):
+        schema = load_schema("uaks-source-object.schema.json")
+        data = {
+            "sourceId": "src_test",
+            "sourceType": "raw_text",
+            "origin": "/tmp/test.md",
+            "ingestedAt": "2026-04-23T00:00:00Z",
+            "mimeType": "text/markdown",
+            "rawArchiveRef": "cas_abc123",
+        }
+        errors = validate(data, schema)
+        assert any("checksum" in e for e in errors)
+
+    def test_invalid_source_type_fails(self):
+        schema = load_schema("uaks-source-object.schema.json")
+        data = {
+            "sourceId": "src_test",
+            "sourceType": "invalid_type",
+            "origin": "/tmp/test.md",
+            "ingestedAt": "2026-04-23T00:00:00Z",
+            "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "mimeType": "text/markdown",
+            "rawArchiveRef": "cas_abc123",
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+
+class TestUaksTextAtomSchema:
+    def test_example_validates(self):
+        schema = load_schema("uaks-text-atom.schema.json")
+        with open(EXAMPLES_DIR / "uaks-text-atom-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_content_fails(self):
+        schema = load_schema("uaks-text-atom.schema.json")
+        data = {
+            "atomId": "ta_test",
+            "atomFamily": "text",
+            "atomClass": "claim",
+            "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceRef": "src_test",
+            "validationState": "DRAFT",
+            "createdAt": "2026-04-23T00:00:00Z",
+        }
+        errors = validate(data, schema)
+        assert any("content" in e for e in errors)
+
+    def test_invalid_validation_state_fails(self):
+        schema = load_schema("uaks-text-atom.schema.json")
+        data = {
+            "atomId": "ta_test",
+            "atomFamily": "text",
+            "atomClass": "claim",
+            "content": "Test content",
+            "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceRef": "src_test",
+            "validationState": "INVALID_STATE",
+            "createdAt": "2026-04-23T00:00:00Z",
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+
+class TestUaksCodeAtomSchema:
+    def test_example_validates(self):
+        schema = load_schema("uaks-code-atom.schema.json")
+        with open(EXAMPLES_DIR / "uaks-code-atom-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_wrong_atom_family_fails(self):
+        schema = load_schema("uaks-code-atom.schema.json")
+        data = {
+            "atomId": "ca_test",
+            "atomFamily": "text",
+            "codeKind": "function",
+            "content": "def foo(): pass",
+            "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceRef": "src_test",
+            "validationState": "DRAFT",
+            "createdAt": "2026-04-23T00:00:00Z",
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+
+class TestUaksAssemblyRecipeSchema:
+    def test_example_validates(self):
+        schema = load_schema("uaks-assembly-recipe.schema.json")
+        with open(EXAMPLES_DIR / "uaks-assembly-recipe-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_empty_atom_sequence_fails(self):
+        schema = load_schema("uaks-assembly-recipe.schema.json")
+        data = {
+            "recipeId": "rcp_test",
+            "recipeType": "summary",
+            "atomSequence": [],
+            "resolutionLevel": "standard",
+            "createdAt": "2026-04-23T00:00:00Z",
+        }
+        errors = validate(data, schema)
+        assert len(errors) > 0
+
+
+class TestUaksValidationEventSchema:
+    def test_example_validates(self):
+        schema = load_schema("uaks-validation-event.schema.json")
+        with open(EXAMPLES_DIR / "uaks-validation-event-example.json") as f:
+            data = json.load(f)
+        assert validate(data, schema) == []
+
+    def test_missing_reviewer_fails(self):
+        schema = load_schema("uaks-validation-event.schema.json")
+        data = {
+            "eventId": "vev_test",
+            "atomId": "ta_test",
+            "fromState": "DRAFT",
+            "toState": "DISTILLED",
+            "timestamp": "2026-04-23T00:00:00Z",
+        }
+        errors = validate(data, schema)
+        assert any("reviewer" in e for e in errors)
+
+
 class TestValidateScriptAutoDetect:
     def test_detects_system_organism_and_pillar_dna_examples(self):
         script = Path(__file__).resolve().parent.parent / "scripts" / "validate.py"

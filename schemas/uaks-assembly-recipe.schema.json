@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/uaks-assembly-recipe.schema.json",
+  "title": "UAKS Assembly Recipe",
+  "description": "Schema for assembly recipes that define how atoms are composed into output documents. Recipes are stored as persistent, reusable assembly plans rather than rendered documents. Derived from UAKS v1 Architecture Specification section 15.",
+  "type": "object",
+  "required": ["recipeId", "recipeType", "atomSequence", "resolutionLevel", "createdAt"],
+  "properties": {
+    "recipeId": {
+      "type": "string",
+      "description": "Persistent identifier for this recipe.",
+      "pattern": "^rcp_[a-zA-Z0-9_-]+$"
+    },
+    "recipeType": {
+      "type": "string",
+      "description": "Classification of the output this recipe produces.",
+      "enum": [
+        "summary",
+        "specification",
+        "walkthrough",
+        "impact_report",
+        "implementation_plan",
+        "trace_report",
+        "drift_report",
+        "documentation_synthesis"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable title for this assembly recipe."
+    },
+    "atomSequence": {
+      "type": "array",
+      "description": "Ordered sequence of atom IDs to include in the assembly.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "templateRef": {
+      "type": ["string", "null"],
+      "description": "Reference to an output template (mold) that defines formatting and structure.",
+      "default": null
+    },
+    "resolutionLevel": {
+      "type": "string",
+      "description": "Output detail level controlling how much content is rendered per atom.",
+      "enum": ["micro", "compact", "standard", "extended", "deep"]
+    },
+    "generationRules": {
+      "type": "object",
+      "description": "Connective tissue and formatting constraints for assembly.",
+      "properties": {
+        "connectiveStrategy": {
+          "type": "string",
+          "description": "How atoms are joined in the output.",
+          "enum": ["sequential", "hierarchical", "thematic", "chronological"]
+        },
+        "includeProvenance": {
+          "type": "boolean",
+          "description": "Whether to render provenance citations inline.",
+          "default": true
+        },
+        "includeEvidence": {
+          "type": "boolean",
+          "description": "Whether to render supporting evidence links.",
+          "default": false
+        },
+        "maxTokens": {
+          "type": ["integer", "null"],
+          "description": "Optional token budget for the rendered output."
+        },
+        "targetAudience": {
+          "type": ["string", "null"],
+          "description": "Intended reader context for tone and detail calibration.",
+          "enum": ["technical", "executive", "general", "academic", null]
+        }
+      },
+      "additionalProperties": true
+    },
+    "filterCriteria": {
+      "type": "object",
+      "description": "Dynamic filter criteria for atom selection (alternative to explicit atomSequence).",
+      "properties": {
+        "atomFamilies": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["text", "code"] }
+        },
+        "validationStates": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["DRAFT", "DISTILLED", "REVIEWED", "VERIFIED"] }
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "entityRefs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "dateRange": {
+          "type": "object",
+          "properties": {
+            "from": { "type": "string", "format": "date-time" },
+            "to": { "type": "string", "format": "date-time" }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of recipe creation."
+    },
+    "updatedAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last recipe modification."
+    },
+    "lastExecutedAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last successful assembly execution."
+    }
+  },
+  "additionalProperties": false
+}

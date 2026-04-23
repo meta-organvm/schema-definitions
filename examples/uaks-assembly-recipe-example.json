@@ -1,0 +1,29 @@
+{
+  "recipeId": "rcp_spec_uaks_nfr",
+  "recipeType": "specification",
+  "title": "UAKS v1 Nonfunctional Requirements",
+  "atomSequence": [
+    "ta_nfr_provenance_completeness",
+    "ta_nfr_hash_determinism",
+    "ta_nfr_graph_consistency",
+    "ta_nfr_retrieval_hybridity",
+    "ta_nfr_projection_stability",
+    "ta_nfr_re_refinement"
+  ],
+  "templateRef": "tpl_specification_standard",
+  "resolutionLevel": "standard",
+  "generationRules": {
+    "connectiveStrategy": "thematic",
+    "includeProvenance": true,
+    "includeEvidence": false,
+    "maxTokens": 4000,
+    "targetAudience": "technical"
+  },
+  "filterCriteria": {
+    "atomFamilies": ["text"],
+    "validationStates": ["REVIEWED", "VERIFIED"]
+  },
+  "createdAt": "2026-04-23T16:00:00Z",
+  "updatedAt": null,
+  "lastExecutedAt": null
+}

@@ -1,0 +1,18 @@
+{
+  "eventId": "vev_p3q4r5s6t7u8",
+  "atomId": "ta_f7e8d9c0b1a2",
+  "fromState": "DISTILLED",
+  "toState": "REVIEWED",
+  "reviewer": "4444j99",
+  "reviewType": "human_review",
+  "rationale": "Requirement text is self-contained and correctly references the provenance completeness NFR.",
+  "findings": [
+    {
+      "severity": "info",
+      "description": "Content hash verified against source span.",
+      "field": "contentHash"
+    }
+  ],
+  "policyRef": "governance/uaks-validation-policy-v1",
+  "timestamp": "2026-04-23T17:00:00Z"
+}

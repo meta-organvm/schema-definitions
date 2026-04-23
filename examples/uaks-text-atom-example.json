@@ -1,0 +1,43 @@
+{
+  "atomId": "ta_f7e8d9c0b1a2",
+  "atomFamily": "text",
+  "atomClass": "requirement",
+  "textKind": "technical",
+  "content": "Every verified atom must trace to a registered source with a valid checksum. No atom may reach VERIFIED state without complete provenance chain.",
+  "contentHash": "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+  "sourceRef": "src_a1b2c3d4e5f6",
+  "sourceSpan": {
+    "startOffset": 1024,
+    "endOffset": 1200,
+    "startLine": 42,
+    "endLine": 44
+  },
+  "entities": [
+    {
+      "entityId": "ent_concept_provenance",
+      "entityType": "concept",
+      "mention": "provenance chain"
+    }
+  ],
+  "relations": [
+    {
+      "relationType": "IMPLEMENTS",
+      "targetRef": "ta_nfr_provenance_completeness",
+      "confidence": 0.95
+    }
+  ],
+  "validationState": "REVIEWED",
+  "temporalCues": {
+    "effectiveFrom": "2026-04-23T00:00:00Z",
+    "effectiveUntil": null,
+    "mentionedDate": null
+  },
+  "provenance": {
+    "refineryVersion": "0.1.0",
+    "refineryStage": "distillation",
+    "transformedAt": "2026-04-23T14:30:00Z",
+    "parentAtomId": null
+  },
+  "createdAt": "2026-04-23T14:30:00Z",
+  "updatedAt": null
+}

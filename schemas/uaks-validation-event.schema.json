@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/uaks-validation-event.schema.json",
+  "title": "UAKS Validation Event",
+  "description": "Schema for recording atom review and validation state transitions. Every promotion or demotion in the governance lifecycle (DRAFT -> DISTILLED -> REVIEWED -> VERIFIED, or DISPUTED/DEPRECATED) is recorded as a validation event. Derived from UAKS v1 Architecture Specification section 16.",
+  "type": "object",
+  "required": ["eventId", "atomId", "fromState", "toState", "reviewer", "timestamp"],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "description": "Unique identifier for this validation event.",
+      "pattern": "^vev_[a-zA-Z0-9_-]+$"
+    },
+    "atomId": {
+      "type": "string",
+      "description": "The atom whose validation state changed."
+    },
+    "fromState": {
+      "type": "string",
+      "description": "Validation state before this event.",
+      "enum": ["DRAFT", "DISTILLED", "REVIEWED", "VERIFIED", "DEPRECATED", "DISPUTED"]
+    },
+    "toState": {
+      "type": "string",
+      "description": "Validation state after this event.",
+      "enum": ["DRAFT", "DISTILLED", "REVIEWED", "VERIFIED", "DEPRECATED", "DISPUTED"]
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "Identifier of the reviewer (human username, agent ID, or 'automated')."
+    },
+    "reviewType": {
+      "type": "string",
+      "description": "Classification of the review that produced this state change.",
+      "enum": ["automated_pipeline", "human_review", "agent_review", "bulk_promotion", "dispute_resolution", "deprecation"]
+    },
+    "rationale": {
+      "type": ["string", "null"],
+      "description": "Human-readable explanation for the state change.",
+      "default": null
+    },
+    "findings": {
+      "type": "array",
+      "description": "Specific issues or observations from the review.",
+      "items": {
+        "type": "object",
+        "required": ["severity", "description"],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning", "error", "blocker"]
+          },
+          "description": { "type": "string" },
+          "field": { "type": ["string", "null"] }
+        }
+      },
+      "default": []
+    },
+    "policyRef": {
+      "type": ["string", "null"],
+      "description": "Reference to the governance policy that authorized this transition."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the validation event."
+    }
+  },
+  "additionalProperties": false
+}
