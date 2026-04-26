@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meta-organvm.github.io/schema-definitions/storefront-v1.schema.json",
+  "title": "Storefront Frontmatter v1",
+  "description": "Optional YAML frontmatter block declaring how an internal markdown artifact projects to client-facing storefront surfaces. Per-artifact contract (not per-repo — see seed.yaml for that). Default behavior when absent: artifact remains internal, excluded from storefront builds. Substrate refuses to render orphans — every storefront-rendered artifact must trace bridge_to lineage to a real internal source. Consumed by the personalized-storefront-render skill and the `organvm storefront` CLI subcommand.",
+  "type": "object",
+  "properties": {
+    "audiences": {
+      "type": "array",
+      "description": "Audience targets for this artifact. Each entry projects one client-facing surface. If absent or only contains {id: internal}, artifact is excluded from storefront builds.",
+      "items": { "$ref": "#/$defs/audience" },
+      "default": [{ "id": "internal" }]
+    },
+    "tldr": {
+      "type": "string",
+      "description": "Single-sentence summary in the client's domain language. REQUIRED if any audience entry has id != 'internal'. Voice-scorer evaluates this string against the persona's voice_constitution before ratify."
+    },
+    "strata": {
+      "type": "string",
+      "description": "Which 8-strata layer (per domain-ideal-whole-substrate skill) this artifact instantiates. Used by storefront audit to detect strata-coverage gaps per persona.",
+      "enum": [
+        "ontology",
+        "lineage",
+        "constellation",
+        "gap-map",
+        "agent-fleet",
+        "production-stack",
+        "internal-magnet",
+        "external-contribution"
+      ]
+    },
+    "client_render_mode": {
+      "type": "string",
+      "description": "Hint to the translation engine for output shape. eli5 = collapse jargon, expand metaphors. tldr = preserve structure, compress prose. full = mirror structure, only substitute lexicon. skip = explicitly exclude from storefront even if tagged.",
+      "enum": ["eli5", "tldr", "full", "skip"],
+      "default": "tldr"
+    }
+  },
+  "$defs": {
+    "audience": {
+      "type": "object",
+      "description": "One audience target. The substrate produces one _generated/<artifact>.<persona>.client.md per audience entry.",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Persona key. 'internal' means no projection. Otherwise must match a {persona_id}.lexicon.yaml file in ~/Documents/personas/. Examples: rob, maddie, scott."
+        },
+        "register": {
+          "type": "string",
+          "description": "Rhetorical mode for this projection (per Product Domain Engine). If absent, defaults to the persona's register_default field.",
+          "enum": ["logos", "ethos", "pathos", "kairos"]
+        },
+        "surface": {
+          "type": "string",
+          "description": "Where this projection deploys. storefront = link-gated subdomain (default). private = auth-required. public = apex/SEO-indexed.",
+          "enum": ["storefront", "private", "public"],
+          "default": "storefront"
+        },
+        "bridge_to": {
+          "type": "array",
+          "description": "Domain handles from the persona's lexicon (e.g. ['chess', 'fitness'] for rob). The substrate uses these to route through the correct lexicon.domains[handle] entry. If absent, all persona domains are eligible.",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

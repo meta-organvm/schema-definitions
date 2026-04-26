@@ -1,0 +1,28 @@
+# Canonical example — storefront frontmatter v1
+# Demonstrates how an internal artifact (here, hokage-chess/docs/content/2026-04-25-bridge-content-pillar.md)
+# declares its client-facing projection. The frontmatter sits at the top of the markdown file
+# between --- delimiters; this YAML file is the example/test-fixture form.
+#
+# Schema: https://meta-organvm.github.io/schema-definitions/storefront-v1.schema.json
+# Consumed by: personalized-storefront-render skill (~/Workspace/a-i--skills/skills/project-management/personalized-storefront-render/)
+
+audiences:
+  - id: rob
+    register: pathos
+    surface: storefront
+    bridge_to: [chess, fitness]
+
+tldr: "Two recurring video formats — Jutsu of the Week and Boss Battle — that turn YouTube viewers into Discord squad members in 4 levels."
+
+strata: production-stack
+
+client_render_mode: tldr
+
+# Notes for substrate authors:
+# - audiences[0].id "rob" routes through ~/Documents/personas/rob-bonavoglia.lexicon.yaml
+# - bridge_to: [chess, fitness] permits both lexicon.domains[chess] and lexicon.domains[fitness] vocabulary
+# - register: pathos invokes Product Domain Engine Phase 4 in pathos mode (emotional/narrative)
+# - strata: production-stack tells audit this artifact instantiates the production-stack layer of 8-strata
+# - client_render_mode: tldr means preserve the document structure, substitute jargon, compress prose by ~30%
+# - On regenerate, output appears at hokage-chess/docs/storefront/_generated/2026-04-25-bridge-content-pillar.rob.client.md
+# - After human ratify (`organvm storefront ratify <slug>`), it moves to _curated/ and ships in the next build.
