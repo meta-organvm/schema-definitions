@@ -47,3 +47,5 @@ htmlcov/
 .env
 .env.local
 .env.*.local
+.claude/
+2026-*.txt
