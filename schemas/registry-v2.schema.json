@@ -112,7 +112,7 @@
         },
         "tier": {
           "type": "string",
-          "enum": ["flagship", "standard", "stub", "archive", "infrastructure"]
+          "enum": ["flagship", "standard", "stub", "archive", "infrastructure", "sovereign"]
         },
         "last_validated": {
           "type": "string",
